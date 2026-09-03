@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071017">
+  <meta name="description" content="Цифровой аватар газового месторождения: поток данных, роль ИИ и реалистичный путь пилота.">
+  <meta property="og:title" content="Цифровой аватар месторождения">
+  <meta property="og:description" content="От сигналов оборудования — к прогнозам и производственным решениям.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:image" content="og-cover.svg">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+  <title>Цифровой аватар месторождения</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">К содержанию</a>
+  <header class="topbar">
+    <a class="brand" href="#hero" aria-label="В начало"><span class="brand-mark"></span>FIELD / LIVE</a>
+    <nav aria-label="Разделы">
+      <a href="#definition">Принцип</a><a href="#architecture">Архитектура</a><a href="#pilot">Пилот</a>
+    </nav>
+    <span class="status"><i></i> контур данных</span>
+  </header>
+
+  <main id="main">
+    <section class="scene hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">ИИ × IoT × инженерная практика</p>
+        <h1 id="hero-title">Цифровой аватар <span>месторождения</span></h1>
+        <p class="lede">От сигналов оборудования — к прогнозам и производственным решениям.</p>
+        <a class="text-link" href="#problem">Пройти по контуру <span>↓</span></a>
+      </div>
+      <div class="field-visual" aria-hidden="true">
+        <svg viewBox="0 0 900 650" role="img">
+          <defs><linearGradient id="well" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#56e0c5"/><stop offset="1" stop-color="#62b6ff" stop-opacity=".08"/></linearGradient></defs>
+          <g class="strata"><path d="M0 450 Q160 405 320 450 T640 445 T900 430"/><path d="M0 505 Q180 470 350 515 T680 500 T900 490"/><path d="M0 565 Q150 530 340 570 T680 558 T900 545"/></g>
+          <g class="surface"><path d="M70 380H760"/><path d="M170 380V170H470V380"/><path d="M620 380V245H760V380"/><circle cx="170" cy="170" r="10"/><circle cx="470" cy="170" r="10"/><circle cx="620" cy="245" r="10"/></g>
+          <g class="wells"><path d="M170 180V535"/><path d="M470 180V495L540 555"/><path d="M620 255V525"/></g>
+          <g class="signals"><circle cx="170" cy="170" r="5"/><circle cx="470" cy="170" r="5"/><circle cx="620" cy="245" r="5"/></g>
+          <text x="70" y="410">ПЛАСТ / ОБЪЕКТ / СИГНАЛ</text><text x="675" y="155">LIVE STATE</text>
+        </svg>
+      </div>
+      <div class="hero-index" aria-hidden="true">01 — 09</div>
+    </section>
+
+    <section class="scene" id="problem" aria-labelledby="problem-title">
+      <div class="section-head reveal"><p class="eyebrow">01 / Проблема</p><h2 id="problem-title">Разрозненные данные не дают <span>целостной картины</span></h2></div>
+      <div class="fragment-map reveal">
+        <div class="fragment f1"><b>SCADA / АСУ ТП</b><span>давление · расход · состояния</span></div>
+        <div class="fragment f2"><b>Телеметрия скважин</b><span>замеры · события · режимы</span></div>
+        <div class="fragment f3"><b>Геология и модели</b><span>пласты · запасы · ограничения</span></div>
+        <div class="fragment f4"><b>ТОиР</b><span>дефекты · наряды · история</span></div>
+        <div class="fragment f5"><b>Лаборатория</b><span>состав · качество · пробы</span></div>
+        <div class="broken-core"><span>?</span><b>Единое состояние объекта</b></div>
+      </div>
+      <p class="scene-note reveal">Когда контекст разделён между системами, инженеру приходится вручную восстанавливать связи — и отделять изменение процесса от ошибки измерения.</p>
+    </section>
+
+    <section class="scene" id="definition" aria-labelledby="definition-title">
+      <div class="section-head reveal"><p class="eyebrow">02 / Определение</p><h2 id="definition-title">Цифровой аватар связывает физический объект с его <span>актуальным цифровым состоянием</span></h2></div>
+      <div class="comparison reveal">
+        <article class="compare static"><p>01</p><h3>Статичная модель</h3><div class="mini-model"><i></i><i></i><i></i></div><span>Описывает устройство или расчётное состояние в выбранный момент.</span></article>
+        <article class="compare dashboard"><p>02</p><h3>Дашборд</h3><div class="mini-chart"><i></i><i></i><i></i><i></i></div><span>Показывает показатели, но сам по себе не связывает их с поведением объекта и моделями.</span></article>
+        <article class="compare avatar"><p>03 / LIVE</p><h3>Цифровой аватар</h3><div class="avatar-loop"><i>объект</i><i>данные</i><i>модель</i></div><span>Синхронизирует данные, контекст и модели для анализа состояния и поддержки решений.</span></article>
+      </div>
+      <p class="source-line">Рабочее определение опирается на NIST и принципы ISO 23247; частота синхронизации выбирается под задачу, а не обязана быть миллисекундной.</p>
+    </section>
+
+    <section class="scene architecture" id="architecture" aria-labelledby="architecture-title">
+      <div class="section-head reveal"><p class="eyebrow">03 / Архитектура</p><h2 id="architecture-title">Как сигнал становится <span>инженерным решением</span></h2></div>
+      <div class="pipeline reveal" role="tablist" aria-label="Этапы архитектуры">
+        <button role="tab" aria-selected="true" aria-controls="arch-detail" id="arch-0" data-index="0"><b>01</b><span>Оборудование<br>и скважины</span></button>
+        <button role="tab" aria-selected="false" aria-controls="arch-detail" id="arch-1" data-index="1" tabindex="-1"><b>02</b><span>IoT и<br>системы</span></button>
+        <button role="tab" aria-selected="false" aria-controls="arch-detail" id="arch-2" data-index="2" tabindex="-1"><b>03</b><span>Платформа<br>данных</span></button>
+        <button role="tab" aria-selected="false" aria-controls="arch-detail" id="arch-3" data-index="3" tabindex="-1"><b>04</b><span>Модели<br>и ИИ</span></button>
+        <button role="tab" aria-selected="false" aria-controls="arch-detail" id="arch-4" data-index="4" tabindex="-1"><b>05</b><span>Рекомендации</span></button>
+        <button role="tab" aria-selected="false" aria-controls="arch-detail" id="arch-5" data-index="5" tabindex="-1"><b>06</b><span>Инженерное<br>решение</span></button>
+      </div>
+      <div class="detail-panel reveal" id="arch-detail" role="tabpanel" aria-live="polite" aria-labelledby="arch-0">
+        <div><span id="arch-kicker">Физический слой</span><h3 id="arch-name">Оборудование и скважины</h3></div>
+        <p id="arch-copy">Датчики и производственные объекты формируют измерения, состояния и события. Качество сигнала и идентификация объекта задают предел качества всего контура.</p>
+        <p class="detail-output"><small>Результат этапа</small><b id="arch-output">Привязанный ко времени сигнал</b></p>
+      </div>
+    </section>
+
+    <section class="scene live-demo" id="live-demo" aria-labelledby="demo-title">
+      <div class="section-head reveal"><p class="eyebrow">04 / Операционное демо</p><h2 id="demo-title">Не слайд о данных — <span>работа с ними</span></h2></div>
+      <p class="demo-disclaimer reveal"><b>DEMO</b> Все значения синтетические и служат только для объяснения механики цифрового аватара.</p>
+      <div class="control-room reveal">
+        <aside class="demo-controls" aria-label="Параметры демонстрации">
+          <div class="well-picker"><span>Объект</span><button class="well-button active" data-well="17" aria-pressed="true">G-17</button><button class="well-button" data-well="24" aria-pressed="false">G-24</button><button class="well-button" data-well="31" aria-pressed="false">G-31</button></div>
+          <label class="range-control" for="choke"><span>Открытие штуцера <output id="choke-output" for="choke">62%</output></span><input id="choke" type="range" min="45" max="78" value="62" step="1"><small>Измените режим — прогноз пересчитается</small></label>
+          <label class="range-control" for="horizon"><span>Горизонт прогноза <output id="horizon-output" for="horizon">12 ч</output></span><input id="horizon" type="range" min="6" max="24" value="12" step="6"></label>
+          <label class="ai-switch"><input id="ai-toggle" type="checkbox" checked><span></span><b>Коррекция ИИ</b><small>Учитывает паттерн недавних отклонений</small></label>
+          <button class="reset-demo" id="reset-demo" type="button">Сбросить демо</button>
+        </aside>
+
+        <div class="demo-dashboard">
+          <div class="kpi-strip" aria-live="polite">
+            <div><span>Дебит газа</span><b><output id="flow-kpi">286</output> <small>тыс. м³/сут</small></b><i id="flow-delta">+4 к базе</i></div>
+            <div><span>Давление устья</span><b><output id="pressure-kpi">8,7</output> <small>МПа</small></b><i id="pressure-delta">−0,2 к базе</i></div>
+            <div><span>Индекс устойчивости</span><b><output id="stability-kpi">82</output> <small>/ 100</small></b><i id="stability-label">рабочая зона</i></div>
+          </div>
+
+          <figure class="trend-chart">
+            <figcaption><div><b>Состояние и прогноз</b><span>история 18 ч · прогноз <output id="chart-horizon">12 ч</output></span></div><div class="chart-legend"><i class="actual-key"></i>факт <i class="forecast-key"></i>прогноз <i class="range-key"></i>диапазон</div></figcaption>
+            <svg id="trend-svg" viewBox="0 0 760 300" role="img" aria-labelledby="trend-title trend-desc">
+              <title id="trend-title">График синтетического дебита газа</title><desc id="trend-desc">Исторические значения и прогноз для выбранного режима.</desc>
+              <g class="chart-grid"></g><path class="confidence" id="confidence-path"></path><path class="actual-line" id="actual-path"></path><path class="forecast-line-svg" id="forecast-path"></path><line class="now-line" x1="456" y1="24" x2="456" y2="252"></line><text class="now-label" x="466" y="40">СЕЙЧАС</text><g id="chart-points"></g><g id="chart-axis"></g>
+            </svg>
+            <div class="chart-tooltip" id="chart-tooltip" role="status"></div>
+          </figure>
+
+          <div class="scenario-compare" aria-label="Сравнение сценариев">
+            <div class="scenario-head"><b>Сравнение режимов</b><span>выберите сценарий для просмотра рекомендации</span></div>
+            <button class="scenario" data-scenario="safe" aria-pressed="false"><span>Щадящий</span><b id="safe-flow">272</b><small>тыс. м³/сут</small><i style="--score:91%">устойчивость 91</i></button>
+            <button class="scenario selected" data-scenario="balanced" aria-pressed="true"><span>Сбалансированный</span><b id="balanced-flow">286</b><small>тыс. м³/сут</small><i style="--score:82%">устойчивость 82</i></button>
+            <button class="scenario" data-scenario="intensive" aria-pressed="false"><span>Интенсивный</span><b id="intensive-flow">301</b><small>тыс. м³/сут</small><i style="--score:63%">устойчивость 63</i></button>
+          </div>
+        </div>
+      </div>
+      <div class="recommendation reveal" aria-live="polite"><span>Рекомендация аватара</span><p id="recommendation-copy"><b>Сбалансированный режим:</b> ожидаемый дебит выше базового при сохранении индекса устойчивости в рабочей зоне. Перед действием проверить ограничение по давлению.</p><button id="explain-button" type="button" aria-expanded="false" aria-controls="explanation">Почему?</button><div id="explanation" hidden><i>Вклад факторов</i><span><b>Открытие штуцера</b><em>+6</em></span><span><b>Тренд давления</b><em>−3</em></span><span><b>Недавняя нестабильность</b><em>−2</em></span><small>Условные вклады модели, не производственная диагностика.</small></div></div>
+    </section>
+
+    <section class="scene" id="ai" aria-labelledby="ai-title">
+      <div class="section-head reveal"><p class="eyebrow">05 / Возможности ИИ</p><h2 id="ai-title">Три аналитические линзы — <span>один производственный контекст</span></h2></div>
+      <div class="ai-lenses reveal">
+        <article class="lens anomaly"><span class="lens-no">A</span><div class="pulse-line"></div><h3>Обнаружение отклонений</h3><p>Выделять нетипичное поведение параметров и сочетаний сигналов для последующей проверки.</p></article>
+        <article class="lens forecast"><span class="lens-no">B</span><div class="forecast-lines"><i></i><i></i><i></i></div><h3>Прогнозирование состояния</h3><p>Оценивать вероятную динамику оборудования или процесса с горизонтом и доверительным диапазоном.</p></article>
+        <article class="lens scenario"><span class="lens-no">C</span><div class="fork"><i></i><i></i><i></i></div><h3>Сравнение сценариев</h3><p>Сопоставлять допустимые режимы по заданным ограничениям до изменения физического объекта.</p></article>
+      </div>
+      <p class="scene-note reveal">Модель не заменяет причинный анализ: результат должен сопровождаться контекстом, неопределённостью и доступными инженеру исходными данными.</p>
+    </section>
+
+    <section class="scene human" id="human" aria-labelledby="human-title">
+      <div class="section-head reveal"><p class="eyebrow">06 / Человек в контуре</p><h2 id="human-title">Решение остаётся <span>инженерным</span></h2></div>
+      <ol class="human-loop reveal" aria-label="Цикл принятия решения">
+        <li><button type="button" data-human-step="0" aria-pressed="false"><b>01</b><span>Наблюдение</span></button></li><li><button type="button" data-human-step="1" aria-pressed="false"><b>02</b><span>Анализ</span></button></li><li><button type="button" data-human-step="2" aria-pressed="false"><b>03</b><span>Рекомендация</span></button></li><li class="human-step"><button type="button" data-human-step="3" aria-pressed="true"><b>04</b><span>Инженерная<br>проверка</span></button></li><li><button type="button" data-human-step="4" aria-pressed="false"><b>05</b><span>Действие</span></button></li><li><button type="button" data-human-step="5" aria-pressed="false"><b>06</b><span>Обратная связь</span></button></li>
+      </ol>
+      <div class="human-principle reveal" aria-live="polite"><b id="human-detail-title">04 · Контрольная точка</b><p id="human-detail-copy">Ответственный специалист проверяет ограничения, достоверность данных и производственный контекст до воздействия на объект.</p><small>Выберите этап цикла</small></div>
+    </section>
+
+    <section class="scene" id="use-cases" aria-labelledby="cases-title">
+      <div class="section-head reveal"><p class="eyebrow">07 / Сценарии</p><h2 id="cases-title">Начать с решения, которое можно <span>проверить в поле</span></h2></div>
+      <div class="case-tracks reveal">
+        <article><i>01</i><h3>Оптимизация режимов работы</h3><p>Сравнение допустимых настроек с учётом технологических ограничений.</p><span>контур: скважина → сбор → подготовка</span></article>
+        <article><i>02</i><h3>Предиктивное обслуживание</h3><p>Ранжирование оборудования для диагностики по динамике состояния и истории событий.</p><span>контур: сигнал → риск → осмотр</span></article>
+        <article><i>03</i><h3>Контроль безопасности</h3><p>Выявление сочетаний параметров, требующих внимания по утверждённым правилам и моделям.</p><span>контур: барьер → отклонение → проверка</span></article>
+        <article><i>04</i><h3>Энергопотребление</h3><p>Сопоставление режимов по энергозатратам без выхода за производственные ограничения.</p><span>контур: режим → энергия → ограничение</span></article>
+      </div>
+    </section>
+
+    <section class="scene pilot" id="pilot" aria-labelledby="pilot-title">
+      <div class="section-head reveal"><p class="eyebrow">08 / Путь пилота</p><h2 id="pilot-title">Сначала — <span>проверяемый контур</span>. Затем — масштаб</h2></div>
+      <div class="roadmap reveal" role="tablist" aria-label="Этапы пилота">
+        <button role="tab" aria-selected="true" aria-controls="pilot-detail" id="pilot-0" data-index="0"><b>01</b><span>Задача</span></button><button role="tab" aria-selected="false" aria-controls="pilot-detail" id="pilot-1" data-index="1" tabindex="-1"><b>02</b><span>Данные</span></button><button role="tab" aria-selected="false" aria-controls="pilot-detail" id="pilot-2" data-index="2" tabindex="-1"><b>03</b><span>Базовый уровень</span></button><button role="tab" aria-selected="false" aria-controls="pilot-detail" id="pilot-3" data-index="3" tabindex="-1"><b>04</b><span>Прототип</span></button><button role="tab" aria-selected="false" aria-controls="pilot-detail" id="pilot-4" data-index="4" tabindex="-1"><b>05</b><span>Полевой тест</span></button><button role="tab" aria-selected="false" aria-controls="pilot-detail" id="pilot-5" data-index="5" tabindex="-1"><b>06</b><span>Оценка</span></button><button role="tab" aria-selected="false" aria-controls="pilot-detail" id="pilot-6" data-index="6" tabindex="-1"><b>07</b><span>Масштаб</span></button>
+      </div>
+      <div class="pilot-detail reveal" id="pilot-detail" role="tabpanel" aria-live="polite" aria-labelledby="pilot-0"><span id="pilot-label">Шаг 01</span><h3 id="pilot-name">Сформулировать решение</h3><p id="pilot-copy">Выбрать узкую производственную задачу, пользователя решения, допустимое действие и критерий полезности.</p><div><small>Контрольный вопрос</small><b id="pilot-check">Какое решение станет лучше — и кто это проверит?</b></div></div>
+    </section>
+
+    <section class="scene closing" id="closing" aria-labelledby="closing-title">
+      <div class="closing-main reveal"><p class="eyebrow">Итог</p><h2 id="closing-title">Цифровой аватар усиливает <span>инженерную экспертизу</span></h2><p>Он собирает актуальное состояние объекта, модели и историю решений в один проверяемый производственный контур.</p><a class="cta" href="#architecture">Посмотреть архитектуру решения <span>↑</span></a></div>
+      <footer class="sources reveal">
+        <h3>Источники и оговорки</h3>
+        <div>
+          <p><a href="https://www.nist.gov/digital-twins" rel="noreferrer">NIST — Digital Twins</a>: наблюдение, диагностика, прогноз и поддержка решений.</p>
+          <p><a href="https://csrc.nist.gov/pubs/ir/8356/final" rel="noreferrer">NIST IR 8356</a>: определения, операции, доверие и кибербезопасность цифровых двойников.</p>
+          <p><a href="https://www.iso.org/standard/75066.html" rel="noreferrer">ISO 23247-1:2021</a>: общие принципы и требования к рамочной архитектуре цифрового двойника.</p>
+          <p><a href="https://www.nist.gov/digital-twins/essential-elements" rel="noreferrer">NIST — Essential Elements</a>: связь датчиков, IIoT, моделей и синхронизации.</p>
+        </div>
+        <p class="caveat">Материал описывает концепцию, а не готовую систему управления. Конкретный эффект зависит от качества и полноты данных, интеграции, валидации моделей, кибербезопасности и производственного контекста. Любое воздействие на объект должно соответствовать регламентам и зонам ответственности предприятия.</p>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>
