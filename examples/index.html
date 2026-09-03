@@ -1,17 +1,19 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Примеры презентаций о цифровом аватаре газового месторождения, созданные разными ИИ-инструментами.">
   <meta name="theme-color" content="#f4efe5">
   <title>Примеры презентаций · ИИ-клуб</title>
+  <script>document.documentElement.dataset.theme=localStorage.getItem('aiResourceTheme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')</script>
   <link rel="stylesheet" href="styles.css">
+  <script src="../theme-pages.js" defer></script>
 </head>
 <body>
   <header class="site-header">
     <a class="back" href="../">← К мастер-классу</a>
-    <span>ИИ-КЛУБ · ГАЛЕРЕЯ</span>
+    <div class="header-tools"><span>ИИ-КЛУБ · ГАЛЕРЕЯ</span><button class="theme-button" type="button" data-theme-toggle aria-label="Переключить цветовую тему" aria-pressed="false">☾</button></div>
   </header>
 
   <main>
