@@ -15,3 +15,5 @@ Python: проверены синтаксис и сквозной сценари
 Слайд 11: подключение Unsloth RAG к Telegram-боту — схема, шесть шагов, API поиска и генерации, проверка источников.
 
 Обновление 01.10.2026: слайды 8–9 — SQLite/sqlite-vec/FTS5, движки embeddings, FAISS/Chroma/Qdrant как внешние альтернативы; RAG_CHUNK_TOKENS и RAG_CHUNK_OVERLAP. Проверена ветка main Unsloth, commit 6c7f0445ff805e54b02fe4369ed77fef1fefa0ad. В конкретной Desktop-сборке возможности запуска с env могут отличаться.
+
+Подробная настройка Desktop: chunk-guide.html — команды macOS/Windows/Linux, выбор embedder, полный Quit, новая KB, проверка и откат. inspect_rag_chunks.py — read-only статистика по одной Knowledge Base; проверен на тестовой SQLite-базе. Desktop с изменёнными env не запускался, существующие пользовательские базы не менялись.
