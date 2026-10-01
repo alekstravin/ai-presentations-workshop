@@ -13,3 +13,5 @@ unsloth_rag_setup_slide.html — отдельная светлая памятк�
 Python: проверены синтаксис и сквозной сценарий PDF/TXT → индекс → поиск → chat через тестовый локальный HTTP-сервер. Настоящие веса моделей в этой проверке не запускались. Для работы установите Ollama, numpy, pypdf и модели по инструкции в начале кода.
 
 Слайд 11: подключение Unsloth RAG к Telegram-боту — схема, шесть шагов, API поиска и генерации, проверка источников.
+
+Обновление 01.10.2026: слайды 8–9 — SQLite/sqlite-vec/FTS5, движки embeddings, FAISS/Chroma/Qdrant как внешние альтернативы; RAG_CHUNK_TOKENS и RAG_CHUNK_OVERLAP. Проверена ветка main Unsloth, commit 6c7f0445ff805e54b02fe4369ed77fef1fefa0ad. В конкретной Desktop-сборке возможности запуска с env могут отличаться.
