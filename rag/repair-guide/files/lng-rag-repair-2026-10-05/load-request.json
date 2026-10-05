@@ -1,0 +1,10 @@
+{
+  "model_path": "unsloth/Qwen3.5-4B-GGUF",
+  "gguf_variant": "Q4_K_M",
+  "max_seq_length": 8192,
+  "disable_vision": true,
+  "speculative_type": "off",
+  "n_batch": 256,
+  "n_ubatch": 128,
+  "n_parallel": 1
+}

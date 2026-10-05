@@ -1,0 +1,16 @@
+# Local opt-in LNG page retrieval. Original behaviour remains the default for every other KB.
+import os as _lng_os
+if _lng_os.environ.get('UNSLOTH_LNG_PAGE_RAG') == '1':
+    from .lng_page_search import KB_ID as _lng_kb, search as _lng_search
+    _lng_original_tool_search = search_knowledge_base_with_sources
+    _lng_original_autoinject = search_for_autoinject
+    def search_knowledge_base_with_sources(**kwargs):
+        if kwargs.get('scope_kb_id') != _lng_kb:
+            return _lng_original_tool_search(**kwargs)
+        sources = _lng_search(kwargs.get('query',''),kwargs.get('top_k') or 4)
+        return (render_sources(sources),sources) if sources else ('No relevant evidence found in the uploaded LNG documents.',[])
+    def search_for_autoinject(**kwargs):
+        if kwargs.get('scope_kb_id') != _lng_kb:
+            return _lng_original_autoinject(**kwargs)
+        sources = _lng_search(kwargs.get('query',''),kwargs.get('top_k') or 4)
+        return (render_sources(sources),sources) if sources else None
