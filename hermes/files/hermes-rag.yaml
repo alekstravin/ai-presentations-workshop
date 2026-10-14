@@ -1,0 +1,23 @@
+# Merge into ~/.hermes/profiles/documents/config.yaml; do not replace secrets.
+# Configure the model through: hermes -p workshop model
+agent:
+  max_turns: 12
+compression:
+  enabled: true
+  threshold: 0.50
+platform_toolsets:
+  cli: [terminal, file, mcp-docs]
+mcp_servers:
+  docs:
+    command: /absolute/path/to/.venv/bin/python
+    args: [/absolute/path/to/unsloth_rag_mcp.py]
+    env:
+      UNSLOTH_BASE_URL: http://127.0.0.1:8888
+      UNSLOTH_KB_ID: REPLACE_WITH_KB_UUID
+      # Expand from the environment loaded by Hermes; don't put an actual key here.
+      UNSLOTH_API_KEY: ${UNSLOTH_API_KEY}
+    timeout: 180
+    tools:
+      include: [search_documents]
+      resources: false
+      prompts: false

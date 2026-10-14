@@ -1,0 +1,705 @@
+{
+  "slides": [
+    {
+      "kicker": "КЛУБ ИИИИ · ПРАКТИЧЕСКИЙ ВОРКШОП",
+      "title": "Hermes<span class=\"dot\">.</span>",
+      "body": "<div class=\"hero-layout\"><div><p class=\"hero-sub\">От языковой модели<br>к помощнику, который действует.</p><p class=\"hero-small\">Локально · VPS · GigaChat · Unsloth + RAG</p><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=local\" target=\"_blank\">Начать подключение <span>↗</span></a><a class=\"button\" href=\"https://alekstravin.github.io/ai-presentations-workshop/links/\" target=\"_blank\">Каналы клуба · QR ↗</a></div></div><div class=\"hero-art\"><div class=\"orbit-label mono\">МОДЕЛЬ ≠ АГЕНТ</div><div class=\"hero-core\">H<span>Hermes Agent</span></div><div class=\"hero-satellite sat1\">МОДЕЛЬ</div><div class=\"hero-satellite sat2\">ИНСТРУМЕНТЫ</div><div class=\"hero-satellite sat3\">ДОКУМЕНТЫ</div></div></div><div class=\"hero-meta mono\">МАТЕРИАЛЫ СВЕРЕНЫ 15.10.2026 · НА ОСНОВЕ ДОКУМЕНТАЦИИ И ПРАКТИКИ КЛУБА</div>",
+      "sub": "",
+      "sources": [],
+      "cls": "hero"
+    },
+    {
+      "kicker": "01 · ЧТО ЭТО",
+      "title": "Hermes — среда для агента",
+      "body": "<div class=\"cards cols3\"><article class=\"card\"><span class=\"mono tag\">LLM</span><h3>Модель предлагает действие</h3><p>Понимает запрос и генерирует текст или структурированный вызов инструмента.</p></article><article class=\"card\"><span class=\"mono tag\">AGENT</span><h3>Hermes выполняет цикл</h3><p>Передаёт задачу модели, вызывает разрешённые инструменты, возвращает результаты.</p></article><article class=\"card\"><span class=\"mono tag\">ENVIRONMENT</span><h3>Окружение определяет возможности</h3><p>Файлы, команды, API и база документов доступны только через подключённые инструменты.</p></article></div><div class=\"note\">Hermes Agent — проект Nous Research. Его не следует путать с семейством языковых моделей Hermes.</div>",
+      "sub": "",
+      "sources": [
+        "hermes"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "02 · КАК ОН ДЕЙСТВУЕТ",
+      "title": "Запрос → действие → проверка",
+      "body": "<div class=\"flow\"><div class=\"node\"><span class=\"mono\">01</span><h3>Задача</h3><p>«Создай папку и сводку»</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">02</span><h3>Решение модели</h3><p>Какой инструмент нужен?</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">03</span><h3>Выполнение</h3><p>terminal / write_file</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">04</span><h3>Обратная связь</h3><p>Код возврата, файл, ответ</p></div></div><div class=\"loop-note\"><span>↺</span> Если данных недостаточно, цикл повторяется. Если результат достигнут — агент отвечает.</div><div class=\"note\">«Готово» в сообщении не является доказательством. Проверяем файл, расчёт, страницу источника или результат команды.</div>",
+      "sub": "",
+      "sources": [
+        "hermes"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "03 · ДЛЯ ЧЕГО",
+      "title": "Где Hermes особенно уместен",
+      "body": "<div class=\"cards cols2\"><article class=\"card\"><span class=\"mono tag\">01</span><h3>Помощник в мессенджере</h3><p>Один агент принимает вопросы, обращается к инструментам и возвращает результат в привычный канал.</p></article><article class=\"card\"><span class=\"mono tag\">02</span><h3>Операционная рутина</h3><p>Разобрать входящие файлы, подготовить сводку, найти сведения в документах, выполнить ограниченный сценарий.</p></article><article class=\"card\"><span class=\"mono tag\">03</span><h3>Повторяющиеся процессы</h3><p>Проверить изменения, составить регулярный отчёт, уведомить при значимом событии.</p></article><article class=\"card\"><span class=\"mono tag\">04</span><h3>Собственная среда</h3><p>Выбрать модель, разместить runtime на VPS, подключить свои API и MCP-серверы.</p></article></div>",
+      "sub": "Выбор определяется задачей, качеством модели и подключёнными инструментами.",
+      "sources": [
+        "gateway",
+        "mcp"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "04 · ЧТО ПОДКЛЮЧАЕМ",
+      "title": "Пять разных компонентов",
+      "body": "<div class=\"stack\"><div><b>Модель</b><span>Облачная API-модель или локальный сервер генерации.</span></div><div><b>Инструменты</b><span>Команды, файлы, поиск, внешние сервисы.</span></div><div><b>Skills</b><span>Повторяемые инструкции и процедуры работы.</span></div><div><b>История и память</b><span>Контекст задачи и сохранённые сведения; это не дообучение весов.</span></div><div><b>MCP</b><span>Стандартный способ добавить внешний инструмент, например поиск по PDF.</span></div></div>",
+      "sub": "",
+      "sources": [
+        "hermes",
+        "mcp"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "05 · ВАРИАНТЫ РАЗМЕЩЕНИЯ",
+      "title": "Один агент — три схемы",
+      "body": "<div class=\"mode-tabs\" role=\"tablist\"><button class=\"active\" data-mode=\"api\">Локально + API</button><button data-mode=\"vps\">VPS + API</button><button data-mode=\"local\">Всё локально</button></div><div id=\"architecture\" class=\"architecture\"></div><div class=\"note\">Где работает Hermes, там его localhost и файловая система. localhost на VPS не ведёт к модели на домашнем Mac.</div>",
+      "sub": "",
+      "sources": [
+        "desktop",
+        "providers"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "06 · РЕСУРСЫ",
+      "title": "Агент и модель — разные нагрузки",
+      "body": "<div class=\"split\"><div><div class=\"big-number\">2 vCPU<span>4 ГБ RAM</span></div><p>Стартовый ориентир для VPS с Hermes и внешним API. GPU для такого сценария не нужен.</p><p class=\"fine\">Инженерная оценка для небольшого числа задач; уточняйте по нагрузке, браузеру и параллельным процессам.</p></div><div class=\"card\"><h3>Локальная LLM</h3><p>Память расходуют веса, KV-кэш контекста, embedder, сама ОС и приложения.</p><div class=\"memory-bar\"><i>ВЕСА</i><i>KV</i><i>ОС + RAG</i></div><p>Наличие 4B-модели на диске ещё не означает, что агент выдержит длинную переписку.</p></div></div>",
+      "sub": "",
+      "sources": [
+        "providers"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "07 · ЛОКАЛЬНЫЙ ЗАПУСК",
+      "title": "Сначала один рабочий разговор",
+      "body": "<div class=\"flow\"><div class=\"node\"><span class=\"mono\">01</span><h3>Установить</h3><p>Desktop или CLI</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">02</span><h3>Выбрать модель</h3><p>hermes model</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">03</span><h3>Включить tools</h3><p>Terminal + File</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">04</span><h3>Проверить</h3><p>Файл создан и прочитан</p></div></div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=local\" target=\"_blank\">Установка: macOS / Windows / Linux <span>↗</span></a><a class=\"button\" href=\"https://hermes-agent.nousresearch.com/\" target=\"_blank\">Официальный сайт ↗</a></div>",
+      "sub": "",
+      "sources": [
+        "install",
+        "quick"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "08 · ПРОФИЛИ",
+      "title": "Не смешивайте настройки проектов",
+      "body": "<div class=\"split\"><div><pre><code>hermes profile create workshop\nhermes -p workshop model\nhermes -p workshop tools\nhermes -p workshop chat</code></pre></div><div><h3>Server → Profile → Model</h3><p>В Desktop сначала выбираем нужное подключение, затем профиль workshop и модель.</p><p>Другой профиль может иметь другой набор моделей и инструментов. Новый tools-набор проверяем в новом сеансе.</p></div></div><div class=\"note\">Для начала нужны terminal и file. «Умеет искать по базе» не означает «умеет выполнять системные команды».</div>",
+      "sub": "",
+      "sources": [
+        "desktop",
+        "mcpconf"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "09 · VPS",
+      "title": "Установить — ещё не запустить 24/7",
+      "body": "<div class=\"cards cols3\"><article class=\"card\"><span class=\"mono tag\">1 · HOST</span><h3>Отдельный пользователь</h3><p>SSH, базовые пакеты и установка Hermes без повседневной работы от root.</p></article><article class=\"card\"><span class=\"mono tag\">2 · MODEL</span><h3>Рабочий API и tools</h3><p>Сначала тест разговора и реального действия в терминале.</p></article><article class=\"card\"><span class=\"mono tag\">3 · SERVICE</span><h3>Служба и проверка</h3><p>Автозапуск, журналы, тест после выхода из SSH и перезагрузки.</p></article></div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=vps\" target=\"_blank\">Полная инструкция для VPS <span>↗</span></a></div>",
+      "sub": "",
+      "sources": [
+        "install",
+        "gateway"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "10 · ДВА ПРОЦЕССА",
+      "title": "Desktop backend ≠ Messaging Gateway",
+      "body": "<div class=\"split\"><article class=\"card accent\"><span class=\"mono tag\">ДЛЯ ПРИЛОЖЕНИЯ</span><h3>hermes serve</h3><p>Backend, к которому подключается Desktop. На VPS его нужно запускать и поддерживать отдельно.</p><pre><code>hermes serve --host 127.0.0.1 --port 9119</code></pre></article><article class=\"card\"><span class=\"mono tag\">ДЛЯ БОТОВ И КАНАЛОВ</span><h3>hermes gateway</h3><p>Доставка сообщений из Telegram и других каналов. Установка службы не заменяет serve.</p><pre><code>hermes gateway setup\nhermes gateway install\nhermes gateway start</code></pre></article></div>",
+      "sub": "",
+      "sources": [
+        "desktop",
+        "gateway"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "11 · УДАЛЁННЫЙ ДОСТУП",
+      "title": "Подключаем Desktop через SSH",
+      "body": "<div class=\"flow\"><div class=\"node\"><span class=\"mono\">01</span><h3>Ваш компьютер</h3><p>Desktop → 127.0.0.1:9119</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">02</span><h3>SSH-туннель</h3><p>Защищённое соединение</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">03</span><h3>VPS</h3><p>serve → loopback:9119</p></div></div><pre><code>ssh -N -L 9119:127.0.0.1:9119 hermes@vps.example</code></pre><p class=\"fine\">Окно туннеля остаётся открытым. В Settings → Gateways добавьте Remote gateway с локальным URL. Для доступа вне туннеля/VPN нужна отдельная настройка аутентификации.</p><div class=\"actions\"><a class=\"button \" href=\"guide.html?topic=vps\" target=\"_blank\">Команды, systemd и проверка <span>↗</span></a></div>",
+      "sub": "",
+      "sources": [
+        "desktop"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "12 · ПОДКЛЮЧЕНИЕ МОДЕЛИ",
+      "title": "URL — только начало",
+      "body": "<div class=\"cards cols3\"><article class=\"card\"><span class=\"mono tag\">ENDPOINT</span><h3>Куда отправляем запрос</h3><p>Совместимый chat API и точный ID реально доступной модели.</p></article><article class=\"card\"><span class=\"mono tag\">AUTH</span><h3>Чем авторизуемся</h3><p>Ключ API или OAuth через адаптер. Секреты не размещаем в HTML.</p></article><article class=\"card\"><span class=\"mono tag\">TOOLS + CONTEXT</span><h3>Что модель действительно умеет</h3><p>Вызов функции, принятие результата и достаточное реальное окно.</p></article></div><div class=\"note\">Минимальная проверка: модель вызывает add_numbers(7, 11) → получает 18 → использует 18 в финальном ответе.</div>",
+      "sub": "",
+      "sources": [
+        "providers",
+        "functions"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "13 · GIGACHAT",
+      "title": "Нужен совместимый шлюз",
+      "body": "<div class=\"flow\"><div class=\"node\"><span class=\"mono\">01</span><h3>Hermes</h3><p>OpenAI tools / messages</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">02</span><h3>Gpt2Giga</h3><p>Перевод API + SDK</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">03</span><h3>GigaChat API</h3><p>Модель из вашего кабинета</p></div></div><div class=\"split compact\"><p>Документация Сбера рекомендует Gpt2Giga для клиентов с протоколом OpenAI. Это готовый адаптер, а не переименование URL.</p><p>Ключ Hermes → прокси и Authorization key GigaChat — разные секреты. Временный access token действует 30 минут.</p></div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=gigachat\" target=\"_blank\">Подключить GigaChat пошагово <span>↗</span></a></div>",
+      "sub": "",
+      "sources": [
+        "gpt",
+        "giga",
+        "oauth"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "14 · GIGACHAT · ПРАКТИКА",
+      "title": "Пять шагов до агента",
+      "body": "<div class=\"steps-horizontal\"><div><b>01</b><h3>Кабинет</h3><p>Authorization key + scope.</p></div><div><b>02</b><h3>Прокси</h3><p>Gpt2Giga, loopback:8090.</p></div><div><b>03</b><h3>CA / TLS</h3><p>Правильный bundle, проверка включена.</p></div><div><b>04</b><h3>Hermes</h3><p>Custom URL /v1 и ключ прокси.</p></div><div><b>05</b><h3>Tools-тест</h3><p>Полный цикл, затем файлы и RAG.</p></div></div><div class=\"note\">Стабильный пакет и текущая ветка Gpt2Giga могут отличаться. Проверьте версию и её руководство. GigaChat-2-Max в шаблоне — пример ID из документации, не гарантия наличия в аккаунте.</div><div class=\"actions\"><button class=\"button\" data-code=\"hermes-gigachat.yaml\">Конфигурация целиком</button><button class=\"button\" data-code=\"provider_check.py\">Код проверки tools</button></div>",
+      "sub": "",
+      "sources": [
+        "gptstart",
+        "gptenv",
+        "cert"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "15 · UNSLOTH",
+      "title": "Модель подключаем как API",
+      "body": "<div class=\"split\"><div><div class=\"endpoint mono\">http://127.0.0.1:8888/v1</div><h3>Что настроить в Hermes</h3><p>Custom endpoint → API-ключ Studio → точный ID модели → реальный контекст сервера.</p><p class=\"fine\">Адрес и авторизация зависят от сборки. В нашем примере Studio слушает порт 8888.</p></div><div class=\"card\"><h3>Что проверить в Studio</h3><ul><li>Модель загружена, а не просто скачана.</li><li>Поддерживает tools и выбранное окно.</li><li>Хватает памяти с учётом KV-кэша.</li><li>Обычный запрос действительно генерирует ответ.</li></ul></div></div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=rag\" target=\"_blank\">Настроить модель + RAG <span>↗</span></a><a class=\"button\" href=\"https://unsloth.ai/download\" target=\"_blank\">Скачать Unsloth ↗</a></div>",
+      "sub": "",
+      "sources": [
+        "unsloth",
+        "providers"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "16 · РАБОЧАЯ ПАМЯТЬ",
+      "title": "Контекст расходуется до ответа",
+      "body": "<div class=\"context-strip\"><div>Инструкции</div><div>Tools</div><div>История</div><div>RAG</div><div>Ответ</div></div><div class=\"split\"><div><div class=\"big-number\">64K<span>стандартный минимум Hermes</span></div><p>Окно на активную сессию должно реально поддерживаться сервером. YAML не добавляет модели память.</p></div><div class=\"card\"><h3>Чтобы не упереться в потолок</h3><p>Включите сжатие. Ограничьте размер выдачи RAG и старых tool-результатов. Следите за параллельными слотами.</p><p>Успех сжатия — история стала короче, а следующая задача выполнилась.</p></div></div>",
+      "sub": "",
+      "sources": [
+        "providers",
+        "config"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "17 · RAG",
+      "title": "Подключённая модель ещё не видит PDF",
+      "body": "<div class=\"rag-diagram\"><div class=\"rag-top\">Hermes <span>выбирает инструмент и собирает ответ</span></div><div class=\"rag-branches\"><div><b>Генерация</b><h3>LLM endpoint</h3><p>Unsloth / GigaChat / другая API-модель</p></div><div class=\"accent\"><b>Поиск доказательств</b><h3>MCP → Unsloth RAG</h3><p>Чанки + название файла + страница</p></div></div><div class=\"rag-bottom\">Ответ со ссылками на найденные фрагменты</div></div><div class=\"note\">RAG — поиск и подача контекста при запросе. Импорт GGUF не переносит базу знаний и эмбеддинги.</div>",
+      "sub": "",
+      "sources": [
+        "mcp",
+        "ragapi"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "18 · RAG В UNSLOTH",
+      "title": "От PDF к проверяемому ответу",
+      "body": "<div class=\"flow\"><div class=\"node\"><span class=\"mono\">01</span><h3>Документы</h3><p>PDF / TXT, извлечение текста</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">02</span><h3>Индекс</h3><p>Чанки, эмбеддинги, метаданные</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">03</span><h3>Поиск</h3><p>Hybrid / lexical / dense</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">04</span><h3>Проверка</h3><p>Число, единицы, PDF-страница</p></div></div><div class=\"split compact\"><p><strong>Сначала retrieval.</strong> Если поиск не находит нужный фрагмент, более умная отвечающая модель проблему не устранит.</p><p><strong>Затем generation.</strong> Просим отвечать по найденным данным и прямо говорить, когда доказательств нет.</p></div>",
+      "sub": "",
+      "sources": [
+        "ragapi"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "19 · MCP · ПРАКТИКА",
+      "title": "Один небольшой инструмент поиска",
+      "body": "<div class=\"split\"><div><pre><code>search_documents(\n  question=&quot;Какова мощность проекта?&quot;,\n  top_k=3\n)\n\n# Возвращает:\n# text + filename + page + score</code></pre></div><div><h3>Что делает шаблон</h3><p>Вызывает API поиска Studio, ограничивает выдачу и передаёт фрагменты модели Hermes.</p><p>Он не запускает второй ответ LLM внутри инструмента — поэтому модели для ответа и поиска можно выбирать независимо.</p><div class=\"actions\"><button class=\"button primary\" data-code=\"unsloth_rag_mcp.py\">Весь Python-код ↗</button></div></div></div><div class=\"actions\"><a class=\"button \" href=\"guide.html?topic=rag\" target=\"_blank\">Установка, ключ и конфигурация MCP <span>↗</span></a></div>",
+      "sub": "",
+      "sources": [
+        "mcpconf",
+        "ragapi"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "20 · КОМБИНАЦИИ",
+      "title": "Локальная база + внешняя модель",
+      "body": "<div class=\"hybrid\"><div class=\"zone\"><span class=\"mono\">ВАШ КОМПЬЮТЕР</span><h3>Unsloth RAG</h3><p>PDF, индекс, embedder.<br>Поиск возвращает фрагменты.</p></div><div class=\"transfer\"><span>→</span><p>Найденные<br>фрагменты</p></div><div class=\"zone\"><span class=\"mono\">API-ПРОВАЙДЕР</span><h3>Отвечающая модель</h3><p>GigaChat или другая LLM.<br>Hermes передаёт ей контекст.</p></div></div><div class=\"note\">Такой сценарий не является полностью локальным: содержимое найденных фрагментов отправляется провайдеру модели. Для закрытых документов выбирайте разрешённую архитектуру.</div>",
+      "sub": "",
+      "sources": [
+        "mcp",
+        "providers"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "21 · VPS + ДОМАШНИЙ RAG",
+      "title": "Разделяем места исполнения",
+      "body": "<div class=\"split\"><div><h3>На VPS</h3><p>Hermes, канал связи, внешняя модель. Документов на VPS может не быть.</p></div><div><h3>На домашнем компьютере</h3><p>Unsloth, индекс и MCP-процесс. Доступ через SSH/VPN; машина должна быть включена.</p></div></div><div class=\"flow\"><div class=\"node\"><span class=\"mono\">01</span><h3>Hermes на VPS</h3><p>Запрос к инструменту</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">02</span><h3>SSH / VPN</h3><p>Приватное соединение</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">03</span><h3>MCP рядом с RAG</h3><p>localhost → Studio</p></div></div><div class=\"note\">Пути к Python и файлам относятся к машине, где запускается MCP. 127.0.0.1 в обычном VPS-процессе не является домашним Mac.</div>",
+      "sub": "",
+      "sources": [
+        "mcpconf",
+        "desktop"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "22 · НАШ ЭКСПЕРИМЕНТ",
+      "title": "16K заработали. Быстро — нет.",
+      "body": "<div class=\"split\"><div><span class=\"mono tag\">MAC · 8 ГБ RAM · ТЕСТ 08.10.2026</span><h3>Qwen3.5-4B · Q4_K_M</h3><p>Контекст 16 384, KV-кэш q8_0. Использовалась локальная адаптация проверки контекста Hermes.</p><div class=\"case-times\"><div><b>70 с</b><span>создать файл</span></div><div><b>28 с</b><span>прочитать</span></div><div><b>257 с</b><span>ответ RAG</span></div></div></div><div class=\"card\"><h3>Что подтверждено</h3><p>Три последовательные задачи в одной истории прошли. Найдены 17,4 млн т/год, NOVATEK_2025.pdf, стр. 18.</p><h3>Что не обещаем</h3><p>Автосжатие не подтверждено успешным тестом; попытка упёрлась в таймаут. 16K — эксперимент, а не стандартная установка Hermes.</p></div></div>",
+      "sub": "Наблюдение клуба, не сравнительный бенчмарк. Стандартные требования смотрите в документации.",
+      "sources": [
+        "providers"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "23 · СРАВНЕНИЕ",
+      "title": "Где выбрать Hermes, Codex или Claude Code",
+      "body": "<table class=\"comparison\"><thead><tr><th>Основная задача</th><th>Hermes</th><th>Codex / Claude Code</th></tr></thead><tbody><tr><td>Личный помощник, бот, свои API</td><td class=\"good\">Естественная точка старта</td><td>Возможны через интеграции</td></tr><tr><td>Долгоживущий агент на своём VPS</td><td class=\"good\">Gateway, профили, расписания</td><td>Нужна выбранная схема запуска</td></tr><tr><td>Большой рефакторинг, тесты, Git / PR</td><td>Зависит от модели и настройки</td><td class=\"good\">Обычно предпочтительнее</td></tr><tr><td>Собственный RAG через MCP</td><td>Да, с отдельным retrieval</td><td>Да, MCP тоже поддерживается</td></tr><tr><td>Проверяемое изменение репозитория</td><td>Возможно; проверяйте workflow</td><td class=\"good\">Профильная задача</td></tr></tbody></table><p class=\"fine\">Это практическая рекомендация, а не рейтинг качества. Оба coding-агента умеют гораздо больше «написания кода»; возможности пересекаются.</p>",
+      "sub": "",
+      "sources": [
+        "hermes",
+        "codex",
+        "claude"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "24 · ДВА CODING-АГЕНТА",
+      "title": "Codex или Claude Code?",
+      "body": "<div class=\"cards cols2\"><article class=\"card\"><span class=\"mono tag\">CODEX</span><h3>Работа в экосистеме OpenAI</h3><p>CLI, IDE и приложение: разбор репозитория, изменения кода, запуск проверок и review. Уместен, если вам удобны существующие инструменты OpenAI и их рабочий процесс.</p></article><article class=\"card\"><span class=\"mono tag\">CLAUDE CODE</span><h3>Работа в экосистеме Anthropic</h3><p>Терминал, IDE, Desktop и web: работа с проектом, команды, тесты и Git. Уместен, если ваш процесс уже опирается на Claude, CLAUDE.md, skills и hooks.</p></article></div><div class=\"note\">Оба поддерживают MCP и автоматизацию. Сравнивайте на своей задаче: корректность diff, прохождение тестов, число исправлений, время и доступный вам тариф. Это критерии оценки, а не утверждение о победителе.</div>",
+      "sub": "",
+      "sources": [
+        "codex",
+        "claude"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "25 · РАЗДЕЛЕНИЕ РОЛЕЙ",
+      "title": "Пусть каждый делает свою часть",
+      "body": "<div class=\"split\"><article class=\"card accent\"><span class=\"mono tag\">HERMES · ЭКСПЛУАТАЦИЯ</span><h3>«Каждое утро собери сводку»</h3><p>Найти изменения, извлечь факты из базы, подготовить отчёт, доставить в канал.</p></article><article class=\"card\"><span class=\"mono tag\">CODEX / CLAUDE CODE · РАЗРАБОТКА</span><h3>«Исправь поиск в проекте»</h3><p>Разобрать код, воспроизвести ошибку, изменить реализацию, прогнать тесты и подготовить diff.</p></article></div><div class=\"note\">Одну и ту же задачу можно решить разными инструментами. Выбирайте по качеству результата, удобству проверки, доступам и стоимости сопровождения.</div>",
+      "sub": "",
+      "sources": [
+        "codex",
+        "claude",
+        "gateway"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "26 · ОШИБКИ И ПРИЧИНЫ",
+      "title": "Диагностика по слоям",
+      "body": "<div class=\"cards cols2\"><article class=\"card\"><span class=\"mono tag\">КОНТЕКСТ</span><h3>64000 / overflow</h3><p>Сверить реальное окно. Включить и проверить сжатие, ограничить tool-выдачу.</p></article><article class=\"card\"><span class=\"mono tag\">ИНСТРУМЕНТЫ</span><h3>Не создаёт папку</h3><p>Проверить профиль, terminal/file, полный путь и новый сеанс.</p></article><article class=\"card\"><span class=\"mono tag\">RETRIEVAL</span><h3>Не находит в PDF</h3><p>Проверить kb_id, текст/OCR, embedder, режим поиска и индексацию.</p></article><article class=\"card\"><span class=\"mono tag\">API</span><h3>401 / SSL / timeout</h3><p>Различать авторизацию, сертификат, лимит и производительность.</p></article></div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=troubleshooting\" target=\"_blank\">Большая инструкция: что проверять при ошибке <span>↗</span></a></div>",
+      "sub": "",
+      "sources": [
+        "providers",
+        "mcp",
+        "oauth",
+        "cert"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "27 · КАК ПРОВЕРЯТЬ",
+      "title": "Четыре приёмочных задания",
+      "body": "<div class=\"checklist\"><div><b>01</b><p><strong>Файлы.</strong> Создать папку, записать тестовую строку, прочитать её и назвать полный путь.</p></div><div><b>02</b><p><strong>Документы.</strong> Найти известную цифру и подтвердить PDF, страницу, год и единицы.</p></div><div><b>03</b><p><strong>Нет ответа.</strong> Задать вопрос вне базы; получить честное отсутствие доказательств.</p></div><div><b>04</b><p><strong>Продолжение.</strong> Выполнить серию задач, проверить сжатие и работу после перезапуска.</p></div></div><div class=\"note\">Для GigaChat сначала добавьте тест полного tool-call цикла. Проверка каталога моделей не заменяет эти задания.</div>",
+      "sub": "",
+      "sources": [],
+      "cls": ""
+    },
+    {
+      "kicker": "28 · ПРАКТИКУМ",
+      "title": "Что соберём за встречу",
+      "body": "<div class=\"agenda\"><div><span>00–15</span><h3>Устройство агента</h3><p>Профиль, модель, tools.</p></div><div><span>15–35</span><h3>Рабочий Hermes</h3><p>Установка и файловая задача.</p></div><div><span>35–55</span><h3>Внешняя модель</h3><p>GigaChat через шлюз, tools-тест.</p></div><div><span>55–75</span><h3>Собственные PDF</h3><p>MCP + Unsloth retrieval.</p></div><div><span>75–90</span><h3>Проверка</h3><p>Источники, ошибки, выбор среды.</p></div></div><div class=\"note\">План на 90 минут предполагает заранее установленный Hermes и готовые API-доступы. На слабом компьютере используйте внешнюю модель и подготовленный учебный индекс.</div>",
+      "sub": "",
+      "sources": [],
+      "cls": ""
+    },
+    {
+      "kicker": "29 · ВСЁ ДЛЯ ПОВТОРЕНИЯ",
+      "title": "Откройте нужную инструкцию",
+      "body": "<div class=\"resource-grid\"><a class=\"button \" href=\"guide.html?topic=local\" target=\"_blank\">Установка локально <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=vps\" target=\"_blank\">Развёртывание на VPS <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=gigachat\" target=\"_blank\">GigaChat и проверка tools <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=rag\" target=\"_blank\">Unsloth + RAG + Python <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=troubleshooting\" target=\"_blank\">Ошибки и их причины <span>↗</span></a><button class=\"button\" id=\"sourcesOpen\">Официальные источники ↗</button></div><div class=\"endline\">Сначала рабочее действие.<br><span>Затем — автономность.</span></div><div class=\"actions\"><a class=\"button primary\" href=\"https://alekstravin.github.io/ai-presentations-workshop/links/\" target=\"_blank\">Каналы клуба · QR ↗</a><a class=\"button\" href=\"guide.html?topic=overview\" target=\"_blank\">Читать на телефоне ↗</a></div>",
+      "sub": "",
+      "sources": [],
+      "cls": ""
+    }
+  ],
+  "guides": {
+    "local": {
+      "title": "Hermes на своём компьютере",
+      "intro": "Сначала добейтесь обычного ответа и одного выполненного действия. Затем добавляйте RAG, бота и расписание. Инструкции сверены 15 октября 2026; интерфейс зависит от версии.",
+      "sources": [
+        "install",
+        "quick",
+        "providers",
+        "desktop"
+      ],
+      "steps": [
+        {
+          "title": "1. Установите Hermes",
+          "text": "На macOS и Windows удобнее начать с официального Desktop-инсталлятора. Linux/macOS/WSL2: ниже установка CLI. Windows без WSL: используйте официальный PowerShell-инсталлятор. Не смешивайте окружения Windows и WSL в одном профиле.",
+          "code": "curl -fsSL https://hermes-agent.nousresearch.com/install.sh -o hermes-install.sh\n# Просмотрите скрипт, затем:\nbash hermes-install.sh\n# Откройте новый терминал\nhermes --version",
+          "file": null
+        },
+        {
+          "title": "Windows PowerShell",
+          "text": "Альтернатива Linux/macOS-командам выше. Скачайте официальный скрипт, просмотрите и запустите. Или установите Desktop с сайта Hermes.",
+          "code": "Invoke-WebRequest https://hermes-agent.nousresearch.com/install.ps1 -OutFile hermes-install.ps1\nGet-Content .\\hermes-install.ps1\n& .\\hermes-install.ps1\nhermes --version",
+          "file": null
+        },
+        {
+          "title": "2. Создайте отдельный профиль",
+          "text": "Профиль — отдельные настройки, история и инструменты. В примерах используется workshop.",
+          "code": "hermes profile create workshop\nhermes -p workshop model\n# Выберите провайдера, модель и способ авторизации\nhermes -p workshop tools",
+          "file": null
+        },
+        {
+          "title": "3. Дайте нужные инструменты",
+          "text": "В hermes tools включите Terminal и File Operations. Для RAG добавьте конкретный MCP-сервер. Изменение списка инструментов применяйте в новом сеансе: старый агент уже собран со старым набором.",
+          "code": "hermes -p workshop chat",
+          "file": null
+        },
+        {
+          "title": "4. Сделайте контрольную задачу",
+          "text": "Попросите создать папку hermes-workshop-test в настоящем каталоге Documents, записать hello.txt, прочитать его и показать полный путь. Сверьте файл в файловом менеджере. Текст «готово» сам по себе не является проверкой.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "5. Откройте Desktop",
+          "text": "В Desktop выберите тот же профиль workshop и нужную модель внизу поля ввода. При наличии нескольких подключений сначала выберите сервер, затем профиль. Если профиль «пропал», проверьте выбранное подключение.",
+          "code": "hermes desktop",
+          "file": null
+        }
+      ]
+    },
+    "vps": {
+      "title": "Hermes на VPS: установка и постоянная работа",
+      "intro": "Пример для Ubuntu/Debian и отдельного пользователя hermes. Ориентир 2 vCPU / 4 ГБ RAM относится к агенту с внешним API, а не к локальному запуску LLM. Это инженерная стартовая оценка, не официальный минимум и не гарантия производительности.",
+      "sources": [
+        "install",
+        "gateway",
+        "desktop",
+        "security"
+      ],
+      "steps": [
+        {
+          "title": "1. Подготовьте пользователя",
+          "text": "Войдите по SSH существующим администратором. Создайте отдельного пользователя для агента; не выполняйте повседневные задачи агента от root.",
+          "code": "sudo apt-get update\nsudo apt-get install -y curl git ca-certificates\nsudo adduser hermes\nsudo -iu hermes",
+          "file": null
+        },
+        {
+          "title": "2. Установите и проверьте CLI",
+          "text": "Выберите внешнюю модель с поддержкой инструментов и достаточным реальным контекстом. Ключи вводите в настройках, не вставляйте их в публичный сайт или репозиторий.",
+          "code": "curl -fsSL https://hermes-agent.nousresearch.com/install.sh -o hermes-install.sh\nbash hermes-install.sh\n# Новый SSH-сеанс под hermes\nhermes --version\nhermes model\nhermes tools\nhermes chat",
+          "file": null
+        },
+        {
+          "title": "3. Если нужен Telegram — включите Gateway",
+          "text": "Это отдельная служба доставки сообщений. Она не заменяет backend для Desktop. Настройте разрешённых пользователей бота. Настройку бота выполняйте под hermes. Системную службу установите из сессии администратора с явным --run-as-user hermes; повседневному агенту sudo не нужен. Проверьте статус после перезагрузки.",
+          "code": "hermes gateway setup\n# Следующие команды — из сессии администратора:\nsudo /home/hermes/.local/bin/hermes gateway install --system --run-as-user hermes\nsudo /home/hermes/.local/bin/hermes gateway start --system\nsudo /home/hermes/.local/bin/hermes gateway status --system\n# Для выбранного профиля добавляйте -p workshop к командам Hermes.",
+          "file": null
+        },
+        {
+          "title": "4. Если нужен Desktop — включите serve",
+          "text": "Проверьте доступные флаги вашей версии. Сначала запустите вручную и оставьте порт только на loopback.",
+          "code": "hermes serve --help\nhermes serve --host 127.0.0.1 --port 9119",
+          "file": null
+        },
+        {
+          "title": "5. Сделайте serve постоянной службой",
+          "text": "Скачайте unit, замените пользователя, HOME и путь ExecStart на реальные значения из command -v hermes. Служба Gateway устанавливается отдельно на шаге 3. Команды sudo выполняются из сессии администратора.",
+          "code": "command -v hermes\n# После редактирования скачанного unit:\nsudo cp hermes-serve.service /etc/systemd/system/\nsudo systemctl daemon-reload\nsudo systemctl enable --now hermes-serve\nsudo systemctl status hermes-serve --no-pager\nsudo journalctl -u hermes-serve -n 50 --no-pager",
+          "file": "hermes-serve.service"
+        },
+        {
+          "title": "6. Подключитесь через SSH-туннель",
+          "text": "Выполните на своём компьютере, заменив vps.example на адрес VPS. Окно SSH должно оставаться открытым. В Desktop: Settings → Gateways → добавить Remote gateway → http://127.0.0.1:9119. Если версия требует авторизацию — настройте её по официальной инструкции. Альтернатива — встроенное подключение SSH.",
+          "code": "ssh -N -L 9119:127.0.0.1:9119 hermes@vps.example",
+          "file": null
+        },
+        {
+          "title": "7. Проверьте после выхода из SSH",
+          "text": "Закройте установочную SSH-сессию; служба должна остаться активной. Перезапустите VPS в согласованное время и проверьте статус, доступ к модели, выполнение тестовой команды и отправку ответа боту. Для прямой публикации сервера наружу нужен отдельный проект с TLS и OAuth; этот пример оставляет backend закрытым.",
+          "code": null,
+          "file": null
+        }
+      ]
+    },
+    "gigachat": {
+      "title": "GigaChat → Gpt2Giga → Hermes",
+      "intro": "Используем прокси Gpt2Giga, на который ссылается документация Сбера. Он переводит протоколы и работает через SDK GigaChat. Доступ к живому аккаунту GigaChat в этой сборке не проверялся: нужен ваш ключ и отдельный тест полного цикла инструментов.",
+      "sources": [
+        "giga",
+        "gpt",
+        "gptstart",
+        "gptenv",
+        "oauth",
+        "cert",
+        "gigaauth",
+        "functions"
+      ],
+      "steps": [
+        {
+          "title": "1. Получите доступ к GigaChat API",
+          "text": "Создайте проект в кабинете разработчика Сбера. Нужны Authorization key и правильный scope: PERS для физлиц; B2B/CORP зависят от договора. Authorization key не равен access token: последний действует 30 минут. Прокси должен получать и обновлять токен через SDK.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "2. Установите Gpt2Giga",
+          "text": "Ниже опубликованный пакет, а не автоматически установленная ветка main. Проверьте --help и документацию именно вашей версии: возможности стабильного релиза и текущего checkout могут отличаться.",
+          "code": "python3 -m venv .venv-giga\n.venv-giga/bin/python -m pip install gpt2giga\n.venv-giga/bin/gpt2giga --help",
+          "file": null
+        },
+        {
+          "title": "3. Создайте приватный .env",
+          "text": "Скачайте шаблон и сохраните как .env в каталоге запуска прокси. Установите свой ключ GigaChat и отдельный случайный ключ доступа к прокси. Прослушивание только 127.0.0.1. Проверку TLS оставьте включённой.",
+          "code": "chmod 600 .env\n.venv-giga/bin/gpt2giga",
+          "file": "gpt2giga.env.example"
+        },
+        {
+          "title": "4. Проверьте сертификаты",
+          "text": "При CERTIFICATE_VERIFY_FAILED возьмите корневой сертификат по официальной инструкции и укажите проверенный CA bundle в настройках SDK. Не используйте verify_ssl_certs=False или curl -k как постоянное решение. Новый целевой адрес API в документации — https://api.giga.chat/v1.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "5. Подключите Hermes",
+          "text": "В том же профиле запустите hermes model → Custom endpoint. URL http://127.0.0.1:8090/v1; ключ — GPT2GIGA_API_KEY прокси, а не Authorization key Сбера. Выберите реальный ID модели из каталога прокси. GigaChat-2-Max в файле — пример из документации, а не обещание доступности в вашем аккаунте.",
+          "code": "hermes profile create gigachat\nhermes -p gigachat model\nhermes -p gigachat tools\nhermes -p gigachat chat",
+          "file": "hermes-gigachat.yaml"
+        },
+        {
+          "title": "6. Проверьте полный цикл инструмента",
+          "text": "Скачайте provider_check.py. Задайте URL и ID модели во втором терминале; скрипт запросит ключ прокси скрытым вводом. Тест запрашивает add_numbers(7,11), возвращает модели 18 и проверяет финальный ответ. HTTP 200 от /models или простое «привет» ещё не доказывают пригодность для агента.",
+          "code": "export MODEL_BASE_URL=http://127.0.0.1:8090/v1\nexport MODEL_ID=ID_ИЗ_КАТАЛОГА\n# MODEL_API_KEY = тот же приватный ключ прокси\n# Задайте его через ваш секретный .env, не публикуйте\n.venv-giga/bin/python provider_check.py",
+          "file": "provider_check.py"
+        },
+        {
+          "title": "7. Уточните контекст и лимиты",
+          "text": "Проверьте поддержку tools выбранной моделью, реальный размер окна, rate limits и достаточность квоты. Стандартный Hermes требует минимум 64 000 токенов. Не увеличивайте context_length в YAML сверх возможностей модели. После этого тестируйте файлы, RAG и несколько последовательных задач.",
+          "code": null,
+          "file": null
+        }
+      ]
+    },
+    "rag": {
+      "title": "Локальная модель и RAG из Unsloth",
+      "intro": "У подключения модели и подключения базы документов разные задачи. /v1/chat/completions даёт генерацию; отдельный поиск возвращает доказательства. Шаблон ниже использует публичный API поиска Studio, а не переносит старый локальный патч из нашего эксперимента.",
+      "sources": [
+        "unsloth",
+        "providers",
+        "mcp",
+        "mcpconf",
+        "ragapi"
+      ],
+      "steps": [
+        {
+          "title": "1. Подготовьте Unsloth",
+          "text": "Установите Desktop с официального сайта. Загрузите GGUF-модель и запустите её. В настройках загрузки проверьте Context Length: стандартному Hermes нужно окно не меньше 64 000 на активную сессию. Не подменяйте реальное окно значением в YAML.",
+          "code": "https://unsloth.ai/download",
+          "file": null
+        },
+        {
+          "title": "2. Подключите модель к Hermes",
+          "text": "В Unsloth найдите API/server settings и создайте API-ключ. Проверьте адрес сервера вашей версии; в нашем примере 127.0.0.1:8888. В Hermes выберите Custom endpoint, URL http://127.0.0.1:8888/v1, ключ Studio и точный ID загруженной модели.",
+          "code": "hermes profile create documents\nhermes -p documents model\nhermes -p documents tools",
+          "file": null
+        },
+        {
+          "title": "3. Подготовьте базу документов",
+          "text": "В Unsloth создайте Knowledge Base / источник проекта и загрузите 2–3 учебных PDF. Дождитесь завершения индексации. Проверьте извлечённый текст, OCR, страницы и поиск в самом Studio. Получите kb_id базы. Название папки или модели вместо UUID не подходит.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "4. Установите MCP-обёртку",
+          "text": "Скачайте unsloth_rag_mcp.py в отдельный каталог и создайте окружение. Сервер вызывает только /api/rag/search, ограничивает число фрагментов и возвращает filename/page. Задайте UNSLOTH_API_KEY в приватном .env профиля Hermes.",
+          "code": "python3 -m venv .venv\n.venv/bin/python -m pip install \"mcp<2\" httpx\n# Узнать абсолютный путь к Python:\n.venv/bin/python -c \"import sys; print(sys.executable)\"",
+          "file": "unsloth_rag_mcp.py"
+        },
+        {
+          "title": "5. Добавьте MCP в профиль",
+          "text": "Объедините скачанный YAML с конфигурацией профиля. Замените абсолютные пути, kb_id и адрес Studio. Секрет подставляется из окружения. Для Windows используйте путь .venv/Scripts/python.exe. После изменения начните новый сеанс.",
+          "code": "hermes -p documents chat",
+          "file": "hermes-rag.yaml"
+        },
+        {
+          "title": "Инструкции агенту: SOUL.md",
+          "text": "Добавьте правила работы с источниками в SOUL.md выбранного профиля. Шаблон требует сначала вызвать поиск, указать PDF и страницу и признать отсутствие доказательств. После изменения начните новый сеанс.",
+          "code": null,
+          "file": "SOUL.md"
+        },
+        {
+          "title": "6. Проверьте доказательства",
+          "text": "Сначала спросите конкретный показатель, который точно есть на известной странице. Сверьте число, единицы, год, имя PDF и страницу вручную. Затем задайте вопрос, ответа на который нет. Агент должен признать отсутствие доказательств, а не сочинить ответ.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "7. Если поиск пустой",
+          "text": "Проверьте UUID, авторизацию, готовность базы и текст PDF. Сравните lexical/hybrid, язык embedder и язык запроса. Размер чанков и overlap меняются на этапе индексации; после изменения обычно нужна переиндексация. Пустая выдача не исправляется простой заменой отвечающей модели.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "8. Hermes на VPS, Unsloth дома",
+          "text": "MCP-процесс можно оставить рядом со Studio и запускать на домашней машине через SSH/VPN: тогда localhost в Python относится к домашней машине. Другой вариант — приватный туннель API. Компьютер должен быть включён. При внешней отвечающей модели найденные фрагменты уходят её провайдеру.",
+          "code": null,
+          "file": null
+        }
+      ]
+    },
+    "troubleshooting": {
+      "title": "Почему агент «не работает»: разбор по слоям",
+      "intro": "Проверяйте цепочку снаружи внутрь: профиль → инструменты → endpoint → реальная модель → retrieval → ответ → подтверждённое действие. Старое сообщение об ошибке остаётся в истории даже после исправления.",
+      "sources": [
+        "providers",
+        "config",
+        "mcp",
+        "gateway"
+      ],
+      "steps": [
+        {
+          "title": "Модели нет в списке",
+          "text": "Проверьте выбранный gateway, затем профиль и модель. Отдельный профиль lng/documents не обязан показывать свои модели в default. Обновите каталог и выберите точный ID.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Ошибка minimum 64000",
+          "text": "Это минимальное окно стандартного Hermes, а не свободная память и не требование к числу параметров. Проверьте реальное окно на сервере и число параллельных слотов. Наши 16K работали только с локальной адаптацией; это не стандартный поддерживаемый рецепт.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "context_overflow",
+          "text": "Включите compression.enabled; настройте ранний порог и короткие результаты инструментов. Начните новый чат, чтобы новые параметры применились. /compress — ручное сжатие, а не увеличение окна. Успех — реально укороченная история и продолжившийся диалог.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "maximum tool-calling iterations",
+          "text": "Посмотрите журнал: какой инструмент повторяется и что он возвращает. Добавьте отсутствующий инструмент, исправьте аргументы или retrieval. Увеличивать max_turns имеет смысл только когда последовательность полезных действий действительно длинная.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Агент не умеет создавать папку",
+          "text": "В профиле должны быть Terminal / File Operations. Попросите использовать настоящий путь Documents, который может отличаться от локализованного имени в интерфейсе. Проверяйте существование файла и содержимое. Новый набор инструментов — новый сеанс.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Unsloth обновился и RAG пропал",
+          "text": "Проверьте авторизацию, ragAvailable, базу, поиск и параметры загрузки. Локальные изменения исходников могли быть заменены обновлением. Отдельный MCP через API устойчивее копирования патча внутрь установленного Studio.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "GigaChat работает 30 минут и перестаёт",
+          "text": "Не используйте временный access token как постоянный API key Hermes. Проверьте обновление токена в Gpt2Giga, scope, CA bundle, квоты и текущие модели. Различайте ключ прокси и Authorization key Сбера.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Ответы идут несколько минут",
+          "text": "Разделите время retrieval и генерации, проверьте swap, размер контекста, KV-кэш и конкурирующие процессы. На 8-ГБ Mac наш RAG-запрос занял 257 секунд. Более длинный контекст решает ёмкость, но может усугублять скорость.",
+          "code": null,
+          "file": null
+        }
+      ]
+    }
+  },
+  "sources": {
+    "hermes": [
+      "Hermes Agent · проект",
+      "https://github.com/NousResearch/hermes-agent"
+    ],
+    "install": [
+      "Установка Hermes",
+      "https://hermes-agent.nousresearch.com/docs/getting-started/installation"
+    ],
+    "quick": [
+      "Первый запуск",
+      "https://hermes-agent.nousresearch.com/docs/getting-started/quickstart"
+    ],
+    "providers": [
+      "Провайдеры и локальные модели",
+      "https://hermes-agent.nousresearch.com/docs/integrations/providers"
+    ],
+    "desktop": [
+      "Hermes Desktop и удалённый сервер",
+      "https://hermes-agent.nousresearch.com/docs/user-guide/desktop"
+    ],
+    "gateway": [
+      "Messaging Gateway и службы",
+      "https://hermes-agent.nousresearch.com/docs/user-guide/messaging"
+    ],
+    "mcp": [
+      "Подключение MCP",
+      "https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp"
+    ],
+    "mcpconf": [
+      "Параметры MCP",
+      "https://hermes-agent.nousresearch.com/docs/reference/mcp-config-reference"
+    ],
+    "config": [
+      "Настройки Hermes",
+      "https://hermes-agent.nousresearch.com/docs/user-guide/configuration"
+    ],
+    "security": [
+      "Права и исполнение команд",
+      "https://hermes-agent.nousresearch.com/docs/user-guide/security"
+    ],
+    "giga": [
+      "Совместимость GigaChat с OpenAI",
+      "https://developers.sber.ru/docs/ru/gigachat/guides/compatible-openai"
+    ],
+    "gpt": [
+      "Gpt2Giga · документация Сбера",
+      "https://developers.sber.ru/docs/ru/gigachain/tools/utilities/gpttogiga-proxy-server"
+    ],
+    "gptstart": [
+      "Gpt2Giga · запуск",
+      "https://ai-forever.github.io/gpt2giga/quickstart/"
+    ],
+    "gptenv": [
+      "Gpt2Giga · параметры окружения",
+      "https://github.com/ai-forever/gpt2giga/blob/main/.env.example"
+    ],
+    "oauth": [
+      "Токен GigaChat",
+      "https://developers.sber.ru/docs/ru/gigachat/api/reference/rest/post-token"
+    ],
+    "gigaauth": [
+      "Адреса и авторизация GigaChat",
+      "https://developers.sber.ru/docs/ru/gigachat/api/reference/rest/gigachat-api"
+    ],
+    "cert": [
+      "Сертификаты GigaChat",
+      "https://developers.sber.ru/docs/ru/gigachat/certificates"
+    ],
+    "functions": [
+      "Вызовы функций GigaChat",
+      "https://developers.sber.ru/docs/ru/gigachat/guides/functions/generating-arguments-for-custom-functions"
+    ],
+    "unsloth": [
+      "Unsloth Desktop",
+      "https://unsloth.ai/docs/desktop"
+    ],
+    "ragapi": [
+      "Unsloth · API поиска",
+      "https://github.com/unslothai/unsloth/blob/main/studio/backend/routes/rag.py"
+    ],
+    "codex": [
+      "Codex · возможности",
+      "https://developers.openai.com/codex/cli/features"
+    ],
+    "claude": [
+      "Claude Code · возможности",
+      "https://code.claude.com/docs/en/overview"
+    ],
+    "video": [
+      "Дополнительное видео",
+      "https://www.youtube.com/watch?v=XNcKUSL1CTE"
+    ]
+  }
+}

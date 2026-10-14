@@ -1,0 +1,21 @@
+# Example for an existing Linux user named hermes.
+# Confirm the actual CLI path with: command -v hermes
+# Save as /etc/systemd/system/hermes-serve.service, edit paths before enabling.
+[Unit]
+Description=Hermes Desktop backend (loopback only)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hermes
+WorkingDirectory=/home/hermes
+Environment=HOME=/home/hermes
+Environment=PATH=/home/hermes/.local/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/home/hermes/.local/bin/hermes serve --host 127.0.0.1 --port 9119
+Restart=on-failure
+RestartSec=10
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

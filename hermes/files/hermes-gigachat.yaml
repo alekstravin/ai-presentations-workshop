@@ -1,0 +1,14 @@
+# Merge into the selected Hermes profile config.yaml.
+# Example model ID: select an actually available model from /v1/models.
+model:
+  provider: custom
+  default: GigaChat-2-Max
+  base_url: http://127.0.0.1:8090/v1
+  key_env: GPT2GIGA_API_KEY
+  # Set context_length only to a value actually supported by this model.
+agent:
+  max_turns: 12
+compression:
+  enabled: true
+platform_toolsets:
+  cli: [terminal, file]
