@@ -208,6 +208,21 @@
       "cls": ""
     },
     {
+      "kicker": "ПРАКТИКА · API · 15.10.2026",
+      "title": "На чём тестировать без большого бюджета",
+      "body": "<table class=\"comparison api-list\"><thead><tr><th>API / условия ↗</th><th>Что дают для тестов</th><th>Главное ограничение</th></tr></thead><tbody><tr><td><a href=\"https://developers.sber.ru/docs/ru/gigachat/tariffs/individual-tariffs\" target=\"_blank\" rel=\"noopener\">GigaChat · Freemium ↗</a></td><td>Freemium · пакеты на 12 месяцев</td><td>Физлица, личное некоммерческое использование</td></tr><tr><td><a href=\"https://ai.google.dev/gemini-api/docs/pricing\" target=\"_blank\" rel=\"noopener\">Gemini · Free Tier ↗</a></td><td>Free Tier у части моделей</td><td>Квоты, регион и политика данных</td></tr><tr><td><a href=\"https://console.groq.com/docs/rate-limits\" target=\"_blank\" rel=\"noopener\">Groq · Free Plan ↗</a></td><td>Free Plan</td><td>Лимиты запросов и токенов по модели</td></tr><tr><td><a href=\"https://openrouter.ai/docs/api-reference/limits\" target=\"_blank\" rel=\"noopener\">OpenRouter · лимиты ↗</a></td><td>Модели :free · базово 50 запросов/день</td><td>Очереди и ограничения upstream</td></tr><tr><td><a href=\"https://developers.cloudflare.com/workers-ai/platform/pricing/\" target=\"_blank\" rel=\"noopener\">Cloudflare · квота ↗</a></td><td>10 000 Neurons / сутки</td><td>Не токены; часть моделей платная</td></tr><tr><td><a href=\"https://docs.cohere.com/docs/cohere-faqs\" target=\"_blank\" rel=\"noopener\">Cohere · Trial API ↗</a></td><td>Trial key · до 1000 вызовов / месяц</td><td>Прототипы; лимиты по endpoint</td></tr></tbody></table><p class=\"fine\" style=\"margin-top:20px\">Бесплатный чат ≠ бесплатный API. Для Hermes отдельно проверяем tools и контекст. Подписки Codex/Claude Code не входят в эти квоты.</p><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=free-api\" target=\"_blank\">Условия, ссылки и что проверить перед тестом <span>↗</span></a></div>",
+      "sub": "",
+      "sources": [
+        "freegiga",
+        "freegemini",
+        "freegroq",
+        "freerouter",
+        "freecf",
+        "freecohere"
+      ],
+      "cls": ""
+    },
+    {
       "kicker": "15 · UNSLOTH",
       "title": "Модель подключаем как API",
       "body": "<div class=\"split\"><div><div class=\"endpoint mono\">http://127.0.0.1:8888/v1</div><h3>Что настроить в Hermes</h3><p>Custom endpoint → API-ключ Studio → точный ID модели → реальный контекст сервера.</p><p class=\"fine\">Адрес и авторизация зависят от сборки. В нашем примере Studio слушает порт 8888.</p></div><div class=\"card\"><h3>Что проверить в Studio</h3><ul><li>Модель загружена, а не просто скачана.</li><li>Поддерживает tools и выбранное окно.</li><li>Хватает памяти с учётом KV-кэша.</li><li>Обычный запрос действительно генерирует ответ.</li></ul></div></div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=rag\" target=\"_blank\">Настроить модель + RAG <span>↗</span></a><a class=\"button\" href=\"https://unsloth.ai/download\" target=\"_blank\">Скачать Unsloth ↗</a></div>",
@@ -315,6 +330,14 @@
         "codex",
         "claude"
       ],
+      "cls": ""
+    },
+    {
+      "kicker": "ПРАКТИКУМ · HERMES / CODEX / CLAUDE CODE",
+      "title": "Одинаковые задания — проверяемый результат",
+      "body": "<table class=\"comparison benchmark\"><thead><tr><th>Задание для всех трёх</th><th>Что должно получиться</th><th>Как проверяем</th></tr></thead><tbody><tr><td>Очистить CSV с ошибками</td><td>clean.csv + отчёт причин</td><td>4 строки, сумма 360; исходник сохранён</td></tr><tr><td>Ответить по одному PDF</td><td>Факт + файл + страница; честное «нет данных»</td><td>Сверка с эталоном и исходным PDF</td></tr><tr><td>Исправить average()</td><td>Обработка None / пустого списка + тесты</td><td>Ноль сохранён; реальные тесты проходят</td></tr><tr><td>Сравнить два среза проектов</td><td>changes.csv + краткая сводка</td><td>Мощность 15 → 20; отличить план от выпуска</td></tr></tbody></table><div class=\"note\">Те же файлы, доступы и лимит времени; по 3 запуска. Качество /10: верность, доказательства, артефакт, соблюдение задания, самостоятельность. Время и стоимость — отдельно.</div><p class=\"fine\" style=\"margin-top:18px\">Записываем модель внутри Hermes. С разными моделями сравниваем системы целиком, а не только агентные оболочки.</p><div class=\"actions\"><button class=\"button primary\" data-code=\"compare-agents-workshop.txt\">Задания, промпты и эталоны ↗</button><a class=\"button\" href=\"code.html?file=compare-agents-workshop.txt\" target=\"_blank\">Открыть и скопировать ↗</a></div>",
+      "sub": "",
+      "sources": [],
       "cls": ""
     },
     {
@@ -855,6 +878,70 @@
           "file": null
         }
       ]
+    },
+    "free-api": {
+      "title": "Бесплатные API для учебных тестов",
+      "intro": "Условия сверены 15.10.2026 по официальным страницам. Квота, доступные модели и регион зависят от аккаунта; перед занятием проверьте кабинет. Бесплатный веб-чат и бесплатный API — разные продукты. Все сервисы ниже — варианты для теста, а не обещание совместимости любой модели с Hermes.",
+      "sources": [
+        "freegiga",
+        "freegigause",
+        "freegemini",
+        "freegroq",
+        "freerouter",
+        "freecf",
+        "freecohere",
+        "freehf"
+      ],
+      "steps": [
+        {
+          "title": "GigaChat · Freemium для физлиц",
+          "text": "В опубликованных условиях: 365 млн токенов на 12 месяцев, раздельные пакеты Lite / Pro / Max / Ultra; генерация в одном потоке. Freemium предназначен для личного некоммерческого использования: публичный или коммерческий учебный сценарий отдельно сверьте с условиями. Для Hermes в нашем материале используется адаптер Gpt2Giga. Не считайте квоту единым балансом для любой модели.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Gemini API · Free Tier",
+          "text": "Для части моделей есть бесплатный API с более низкими лимитами. Доступность зависит от модели, проекта и поддерживаемого региона; смотрите текущую таблицу и консоль. Политика использования данных отличается между бесплатным и платным доступом: не передавайте закрытые документы без разрешения. В Hermes есть провайдер Gemini.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Groq · Free Plan",
+          "text": "Есть бесплатный план с лимитами запросов и токенов; значения различаются по моделям. Откройте раздел Limits своего аккаунта до воркшопа. Выбирайте модель с tools и подходящим окном; один ответ чата ещё не подтверждает пригодность для агента. Совместимый endpoint проверяйте полным циклом функции.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "OpenRouter · модели :free",
+          "text": "В опубликованной таблице Free — 50 запросов в день. Реальный лимит и остаток проверяйте в кабинете и GET /api/v1/key: уровень зависит от аккаунта и покупок кредитов. Доступность и очереди также зависят от upstream-провайдера; выбирайте точный :free ID. Квота на запросы может быстро закончиться в агентном цикле.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Cloudflare Workers AI · дневная квота",
+          "text": "10 000 Neurons в сутки без оплаты — единицы вычислений, не число токенов или запросов. После исчерпания на Free дальнейшие операции ограничиваются; платный режим оплачивает превышение. Некоторые ресурсоёмкие модели требуют платный способ оплаты даже при наличии квоты. Перед подключением проверьте поддержку tools конкретной модели и совместимый API.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Cohere · бесплатный Trial key",
+          "text": "Cohere предлагает бесплатные evaluation/trial ключи для прототипирования. В FAQ указан месячный лимит 1000 вызовов; минутные и модельные ограничения проверяйте по endpoint и кабинету. Для публичного production нужен соответствующий production-доступ. Chat, embeddings и rerank выполняют разные задачи; не любая модель является отвечающей LLM для Hermes.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Почему Hugging Face не назван бесплатным API",
+          "text": "Старые поисковые выдержки ещё показывают $0.10 для Free Users. Актуальная открытая таблица уже указывает Free Users: None; кредиты включены в платные подписки. Поэтому HF не включён в список бесплатных вариантов на слайде. Бесплатная загрузка весов не означает бесплатный облачный inference.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Порядок проверки перед занятием",
+          "text": "Получить ключ → увидеть квоту → выбрать конкретную модель → получить ответ → проверить model → tool call → tool result → final answer → измерить расход. API из этого списка не делает Codex/Claude Code бесплатными: лицензия приложения, подписка и поддерживаемые способы авторизации проверяются отдельно.",
+          "code": null,
+          "file": null
+        }
+      ]
     }
   },
   "sources": {
@@ -965,6 +1052,38 @@
     "nip": [
       "nip.io / sslip.io · имена, hex и HTTPS",
       "https://nip.io/"
+    ],
+    "freegiga": [
+      "GigaChat · Freemium",
+      "https://developers.sber.ru/docs/ru/gigachat/tariffs/individual-tariffs"
+    ],
+    "freegigause": [
+      "GigaChat · условия использования",
+      "https://developers.sber.ru/docs/ru/gigachat/tariffs/commercial"
+    ],
+    "freegemini": [
+      "Gemini · Free Tier",
+      "https://ai.google.dev/gemini-api/docs/pricing"
+    ],
+    "freegroq": [
+      "Groq · Free Plan",
+      "https://console.groq.com/docs/rate-limits"
+    ],
+    "freerouter": [
+      "OpenRouter · лимиты",
+      "https://openrouter.ai/docs/api-reference/limits"
+    ],
+    "freecf": [
+      "Cloudflare · квота",
+      "https://developers.cloudflare.com/workers-ai/platform/pricing/"
+    ],
+    "freehf": [
+      "Hugging Face · условия",
+      "https://huggingface.co/docs/inference-providers/en/pricing"
+    ],
+    "freecohere": [
+      "Cohere · Trial API",
+      "https://docs.cohere.com/docs/cohere-faqs"
     ]
   }
 }
