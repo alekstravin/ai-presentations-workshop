@@ -96,7 +96,7 @@
     {
       "kicker": "09 · VPS",
       "title": "Установить — ещё не запустить 24/7",
-      "body": "<div class=\"cards cols3\"><article class=\"card\"><span class=\"mono tag\">1 · HOST</span><h3>Отдельный пользователь</h3><p>SSH, базовые пакеты и установка Hermes без повседневной работы от root.</p></article><article class=\"card\"><span class=\"mono tag\">2 · MODEL</span><h3>Рабочий API и tools</h3><p>Сначала тест разговора и реального действия в терминале.</p></article><article class=\"card\"><span class=\"mono tag\">3 · SERVICE</span><h3>Служба и проверка</h3><p>Автозапуск, журналы, тест после выхода из SSH и перезагрузки.</p></article></div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=vps\" target=\"_blank\">Полная инструкция для VPS <span>↗</span></a></div>",
+      "body": "<div class=\"cards cols3\"><article class=\"card\"><span class=\"mono tag\">1 · HOST</span><h3>Отдельный пользователь</h3><p>SSH, базовые пакеты и установка Hermes без повседневной работы от root.</p></article><article class=\"card\"><span class=\"mono tag\">2 · MODEL</span><h3>Рабочий API и tools</h3><p>Сначала тест разговора и реального действия в терминале.</p></article><article class=\"card\"><span class=\"mono tag\">3 · SERVICE</span><h3>Служба и проверка</h3><p>Автозапуск, журналы, тест после выхода из SSH и перезагрузки.</p></article></div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=existing-vps\" target=\"_blank\">Уже есть сервер: инструкция для Mac / Windows <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=vps\" target=\"_blank\">Другие варианты VPS <span>↗</span></a></div>",
       "sub": "",
       "sources": [
         "install",
@@ -105,11 +105,23 @@
       "cls": ""
     },
     {
-      "kicker": "10 · ДВА ПРОЦЕССА",
-      "title": "Desktop backend ≠ Messaging Gateway",
-      "body": "<div class=\"split\"><article class=\"card accent\"><span class=\"mono tag\">ДЛЯ ПРИЛОЖЕНИЯ</span><h3>hermes serve</h3><p>Backend, к которому подключается Desktop. На VPS его нужно запускать и поддерживать отдельно.</p><pre><code>hermes serve --host 127.0.0.1 --port 9119</code></pre></article><article class=\"card\"><span class=\"mono tag\">ДЛЯ БОТОВ И КАНАЛОВ</span><h3>hermes gateway</h3><p>Доставка сообщений из Telegram и других каналов. Установка службы не заменяет serve.</p><pre><code>hermes gateway setup\nhermes gateway install\nhermes gateway start</code></pre></article></div>",
+      "kicker": "VPS · ВЫБОР ПЛОЩАДКИ",
+      "title": "Почему Hostinger удобен для старта",
+      "body": "<div class=\"cards cols3\"><article class=\"card\"><span class=\"mono tag\">ПОНЯТНАЯ ПАНЕЛЬ</span><h3>hPanel</h3><p>Ресурсы, SSH-команда, firewall и резервные копии собраны в одной панели.</p></article><article class=\"card\"><span class=\"mono tag\">КОНТРОЛЬ СЕРВЕРА</span><h3>Полный root-доступ</h3><p>Можно создать пользователя hermes, установить systemd и подключить свой API.</p></article><article class=\"card\"><span class=\"mono tag\">ПРАКТИКА ВОРКШОПА</span><h3>Проще обслуживать</h3><p>Меньше отдельных инструментов для контроля VPS. Модель по API не требует GPU на сервере.</p></article></div><div class=\"note\">Это удобный выбор для обучения, а не универсальный победитель. Сравните продление, предоплату и регион. Уже работающий сервер не переустанавливаем ради шаблона.</div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=existing-vps\" target=\"_blank\">Установка на существующий сервер <span>↗</span></a><a class=\"button\" href=\"https://www.youtube.com/watch?v=XNcKUSL1CTE\" target=\"_blank\">Видео из материалов ↗</a></div>",
       "sub": "",
       "sources": [
+        "hostinger",
+        "hostingerplans"
+      ],
+      "cls": ""
+    },
+    {
+      "kicker": "10 · ТРИ РЕЖИМА",
+      "title": "Браузер, Desktop и мессенджеры",
+      "body": "<div class=\"cards cols3\"><article class=\"card\"><span class=\"mono tag\">БРАУЗЕР + REMOTE</span><h3>hermes dashboard</h3><p>Браузерный интерфейс и backend. На VPS — постоянная служба; доступ через SSH/VPN или HTTPS с авторизацией.</p></article><article class=\"card\"><span class=\"mono tag\">API / BACKEND</span><h3>hermes serve</h3><p>Серверный API без браузерного SPA. Для удалённого Desktop ориентируйтесь на dashboard из текущей документации.</p></article><article class=\"card\"><span class=\"mono tag\">БОТЫ И КАНАЛЫ</span><h3>hermes gateway</h3><p>Отдельный процесс Telegram и других каналов. Dashboard не запускает бота автоматически.</p></article></div><pre><code>hermes dashboard --no-open --host 127.0.0.1 --port 9119</code></pre><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=existing-vps\" target=\"_blank\">Начать: Terminal на Mac / PowerShell на Windows <span>↗</span></a></div>",
+      "sub": "",
+      "sources": [
+        "dashboard",
         "desktop",
         "gateway"
       ],
@@ -117,8 +129,8 @@
     },
     {
       "kicker": "11 · УДАЛЁННЫЙ ДОСТУП",
-      "title": "Подключаем Desktop через SSH",
-      "body": "<div class=\"flow\"><div class=\"node\"><span class=\"mono\">01</span><h3>Ваш компьютер</h3><p>Desktop → 127.0.0.1:9119</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">02</span><h3>SSH-туннель</h3><p>Защищённое соединение</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">03</span><h3>VPS</h3><p>serve → loopback:9119</p></div></div><pre><code>ssh -N -L 9119:127.0.0.1:9119 hermes@vps.example</code></pre><p class=\"fine\">Окно туннеля остаётся открытым. В Settings → Gateways добавьте Remote gateway с локальным URL. Для доступа вне туннеля/VPN нужна отдельная настройка аутентификации.</p><div class=\"actions\"><a class=\"button \" href=\"guide.html?topic=vps\" target=\"_blank\">Команды, systemd и проверка <span>↗</span></a></div>",
+      "title": "Подключаемся через SSH-туннель",
+      "body": "<div class=\"flow\"><div class=\"node\"><span class=\"mono\">01</span><h3>Ваш компьютер</h3><p>Desktop → 127.0.0.1:9119</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">02</span><h3>SSH-туннель</h3><p>Защищённое соединение</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">03</span><h3>VPS</h3><p>dashboard → loopback:9119</p></div></div><pre><code>ssh -N -L 9119:127.0.0.1:9119 hermes@vps.example</code></pre><p class=\"fine\">Окно туннеля остаётся открытым. В Settings → Gateways добавьте Remote gateway с локальным URL. Для доступа вне туннеля/VPN нужна отдельная настройка аутентификации.</p><div class=\"actions\"><a class=\"button \" href=\"guide.html?topic=vps\" target=\"_blank\">Команды, systemd и проверка <span>↗</span></a></div>",
       "sub": "",
       "sources": [
         "desktop"
@@ -313,7 +325,7 @@
     {
       "kicker": "29 · ВСЁ ДЛЯ ПОВТОРЕНИЯ",
       "title": "Откройте нужную инструкцию",
-      "body": "<div class=\"resource-grid\"><a class=\"button \" href=\"guide.html?topic=local\" target=\"_blank\">Установка локально <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=vps\" target=\"_blank\">Развёртывание на VPS <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=gigachat\" target=\"_blank\">GigaChat и проверка tools <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=rag\" target=\"_blank\">Unsloth + RAG + Python <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=troubleshooting\" target=\"_blank\">Ошибки и их причины <span>↗</span></a><button class=\"button\" id=\"sourcesOpen\">Официальные источники ↗</button></div><div class=\"endline\">Сначала рабочее действие.<br><span>Затем — автономность.</span></div><div class=\"actions\"><a class=\"button primary\" href=\"https://alekstravin.github.io/ai-presentations-workshop/links/\" target=\"_blank\">Каналы клуба · QR ↗</a><a class=\"button\" href=\"guide.html?topic=overview\" target=\"_blank\">Читать на телефоне ↗</a></div>",
+      "body": "<div class=\"resource-grid\"><a class=\"button \" href=\"guide.html?topic=local\" target=\"_blank\">Установка локально <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=vps\" target=\"_blank\">Развёртывание на VPS <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=existing-vps\" target=\"_blank\">Существующий VPS · Mac / Windows <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=gigachat\" target=\"_blank\">GigaChat и проверка tools <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=rag\" target=\"_blank\">Unsloth + RAG + Python <span>↗</span></a><a class=\"button \" href=\"guide.html?topic=troubleshooting\" target=\"_blank\">Ошибки и их причины <span>↗</span></a><button class=\"button\" id=\"sourcesOpen\">Официальные источники ↗</button></div><div class=\"endline\">Сначала рабочее действие.<br><span>Затем — автономность.</span></div><div class=\"actions\"><a class=\"button primary\" href=\"https://alekstravin.github.io/ai-presentations-workshop/links/\" target=\"_blank\">Каналы клуба · QR ↗</a><a class=\"button\" href=\"guide.html?topic=overview\" target=\"_blank\">Читать на телефоне ↗</a></div>",
       "sub": "",
       "sources": [],
       "cls": ""
@@ -392,21 +404,21 @@
         },
         {
           "title": "3. Если нужен Telegram — включите Gateway",
-          "text": "Это отдельная служба доставки сообщений. Она не заменяет backend для Desktop. Настройте разрешённых пользователей бота. Настройку бота выполняйте под hermes. Системную службу установите из сессии администратора с явным --run-as-user hermes; повседневному агенту sudo не нужен. Проверьте статус после перезагрузки.",
+          "text": "Это отдельная служба доставки сообщений. Она не заменяет dashboard для браузера и Desktop. Настройте разрешённых пользователей бота. Настройку бота выполняйте под hermes. Системную службу установите из сессии администратора с явным --run-as-user hermes; повседневному агенту sudo не нужен. Проверьте статус после перезагрузки.",
           "code": "hermes gateway setup\n# Следующие команды — из сессии администратора:\nsudo /home/hermes/.local/bin/hermes gateway install --system --run-as-user hermes\nsudo /home/hermes/.local/bin/hermes gateway start --system\nsudo /home/hermes/.local/bin/hermes gateway status --system\n# Для выбранного профиля добавляйте -p workshop к командам Hermes.",
           "file": null
         },
         {
-          "title": "4. Если нужен Desktop — включите serve",
+          "title": "4. Если нужен Desktop — включите dashboard",
           "text": "Проверьте доступные флаги вашей версии. Сначала запустите вручную и оставьте порт только на loopback.",
-          "code": "hermes serve --help\nhermes serve --host 127.0.0.1 --port 9119",
+          "code": "hermes dashboard --no-open --help\nhermes dashboard --no-open --host 127.0.0.1 --port 9119",
           "file": null
         },
         {
-          "title": "5. Сделайте serve постоянной службой",
+          "title": "5. Сделайте dashboard постоянной службой",
           "text": "Скачайте unit, замените пользователя, HOME и путь ExecStart на реальные значения из command -v hermes. Служба Gateway устанавливается отдельно на шаге 3. Команды sudo выполняются из сессии администратора.",
-          "code": "command -v hermes\n# После редактирования скачанного unit:\nsudo cp hermes-serve.service /etc/systemd/system/\nsudo systemctl daemon-reload\nsudo systemctl enable --now hermes-serve\nsudo systemctl status hermes-serve --no-pager\nsudo journalctl -u hermes-serve -n 50 --no-pager",
-          "file": "hermes-serve.service"
+          "code": "command -v hermes\n# После редактирования скачанного unit:\nsudo cp hermes-server.service /etc/systemd/system/\nsudo systemctl daemon-reload\nsudo systemctl enable --now hermes-server\nsudo systemctl status hermes-server --no-pager\nsudo journalctl -u hermes-server -n 50 --no-pager",
+          "file": "hermes-server.service"
         },
         {
           "title": "6. Подключитесь через SSH-туннель",
@@ -416,7 +428,7 @@
         },
         {
           "title": "7. Проверьте после выхода из SSH",
-          "text": "Закройте установочную SSH-сессию; служба должна остаться активной. Перезапустите VPS в согласованное время и проверьте статус, доступ к модели, выполнение тестовой команды и отправку ответа боту. Для прямой публикации сервера наружу нужен отдельный проект с TLS и OAuth; этот пример оставляет backend закрытым.",
+          "text": "Закройте установочную SSH-сессию; служба должна остаться активной. Проверьте статус после рестарта службы, доступ к модели, выполнение тестовой команды и отправку ответа боту. Перезагрузку всего VPS согласуйте отдельно. Для прямой публикации сервера наружу нужен отдельный проект с TLS и OAuth; этот пример оставляет backend закрытым.",
           "code": null,
           "file": null
         }
@@ -606,6 +618,105 @@
           "file": null
         }
       ]
+    },
+    "existing-vps": {
+      "title": "Уже есть сервер: Mac / Windows → независимый Hermes",
+      "intro": "Пошаговый маршрут для существующего Ubuntu/Debian VPS. Все адреса условные: vps.example замените своим адресом, adminuser — существующим SSH-пользователем. Команды Mac и Windows выполняются на вашем компьютере, Linux-команды — только после входа на VPS. Ничего переустанавливать на сервере целиком не нужно.",
+      "sources": [
+        "install",
+        "dashboard",
+        "desktop",
+        "security",
+        "hostinger",
+        "hostingerplans",
+        "video"
+      ],
+      "steps": [
+        {
+          "title": "Почему для воркшопа удобен Hostinger",
+          "text": "hPanel объединяет сведения о ресурсах, SSH-команду, firewall и резервные копии; root-доступ позволяет установить отдельного пользователя, systemd и свой backend. Для новичка это сокращает число отдельных инструментов при запуске и обслуживании. Круглосуточная работа без включённого Mac — преимущество VPS в целом, не только Hostinger. Перед покупкой сравните цену продления, срок предоплаты, регион, лимиты и доступные способы оплаты. Обычный CPU VPS здесь обслуживает агента с внешним API: он не заменяет GPU-сервер для большой LLM. На уже работающем VPS используйте ручную установку ниже; переустановка ОС или применение шаблона может затронуть существующие данные. Материал видео доступен по ссылке в источниках; точные высказывания автора в этом дополнении не цитируются.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "1A. Mac: откройте Terminal",
+          "text": "Нажмите ⌘ + пробел, введите Terminal и нажмите Enter. Сначала проверьте SSH, затем подключитесь. Если провайдер выдал root, используйте root вместо adminuser только для административной подготовки. При первом входе сверьте отпечаток SSH с панелью провайдера; пароль при вводе не отображается.",
+          "code": "ssh -V\nssh adminuser@vps.example\n# Если вход по ключу, вместо предыдущей команды:\nssh -i ~/.ssh/id_ed25519 adminuser@vps.example",
+          "file": null
+        },
+        {
+          "title": "1B. Windows: откройте PowerShell",
+          "text": "Нажмите Win, введите PowerShell или Windows Terminal и откройте. WSL для SSH к Linux-серверу не нужен. Выполните команды ниже. Путь к ключу относится к Windows; не копируйте путь с Mac.",
+          "code": "ssh -V\nssh adminuser@vps.example\n# Если вход по ключу:\nssh -i \"$env:USERPROFILE\\.ssh\\id_ed25519\" adminuser@vps.example",
+          "file": null
+        },
+        {
+          "title": "Если Windows пишет «ssh не распознано»",
+          "text": "Откройте PowerShell от имени администратора и установите компонент OpenSSH Client. Затем закройте это окно и вернитесь в обычный PowerShell для подключения. На управляемом компьютере установку может выполнять администратор.",
+          "code": "Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0\n# В новом обычном PowerShell:\nssh -V\nssh adminuser@vps.example",
+          "file": null
+        },
+        {
+          "title": "2. На VPS: сначала осмотр",
+          "text": "После SSH приглашение терминала относится уже к серверу. Проверьте ОС, память, место и занятые порты. Эти инструкции рассчитаны на Ubuntu/Debian с systemd. Существующие сайты, контейнеры и прокси сохраняйте. Если 9119 занят, выберите свободный порт и замените его во всех следующих командах. Не перезагружайте VPS ради установки.",
+          "code": "whoami\ncat /etc/os-release\nfree -h\ndf -h /\nsudo ss -ltnp\nsystemctl --type=service --state=running --no-pager",
+          "file": null
+        },
+        {
+          "title": "3. На VPS: отдельный пользователь",
+          "text": "Из существующего аккаунта администратора установите базовые зависимости и создайте пользователя hermes. Если он уже существует — сначала проверьте его назначение, не меняйте вслепую. Не добавляйте агента в sudo или docker. sudo -iu hermes переключает вас на его отдельный HOME.",
+          "code": "sudo apt-get update\nsudo apt-get install -y curl git ca-certificates\nsudo adduser --disabled-password --gecos \"\" hermes\nsudo -iu hermes",
+          "file": null
+        },
+        {
+          "title": "4. Под hermes: установка и стартовые команды",
+          "text": "Скачайте официальный установщик и просмотрите его перед запуском. Следуйте подсказкам установщика. PATH ниже делает CLI доступным в текущем терминале без повторного SSH. Если dashboard сообщает об отсутствующих зависимостях или сборке интерфейса, выполните его указания; это отдельный этап от установки CLI.",
+          "code": "curl -fsSL https://hermes-agent.nousresearch.com/install.sh -o hermes-install.sh\nless hermes-install.sh\n# Выйти из less: q\nbash hermes-install.sh\nexport PATH=\"$HOME/.local/bin:$PATH\"\nhermes --version\nhermes dashboard --help\ncommand -v hermes",
+          "file": null
+        },
+        {
+          "title": "5. Под hermes: подключите модель",
+          "text": "hermes model открывает выбор провайдера. Для независимости от домашнего компьютера выберите внешний API или модель, которая работает на самом сервере. Локальный Unsloth на выключенном Mac не будет доступен VPS. Ключ вводите приватно. В tools включите необходимые Terminal / File Operations и начните новый сеанс. Установленный интерфейс без модели ещё не умеет отвечать.",
+          "code": "hermes model\nhermes tools\nhermes doctor\nhermes chat\n# Завершите тестовый чат, затем запустите браузерный интерфейс:\nhermes dashboard --no-open --host 127.0.0.1 --port 9119",
+          "file": null
+        },
+        {
+          "title": "6. На Mac ИЛИ Windows: второе окно терминала",
+          "text": "Оставьте dashboard работающим на VPS. Во втором локальном Terminal / PowerShell откройте SSH-туннель. Команда одинакова для обеих ОС; при входе по ключу добавьте -i с путём из шага 1. Затем откройте http://127.0.0.1:9119 в браузере своего компьютера. Окно туннеля остаётся открытым, отсутствие вывода нормально. Порт 9119 открывать в публичном firewall не требуется.",
+          "code": "ssh -N -L 9119:127.0.0.1:9119 adminuser@vps.example",
+          "file": null
+        },
+        {
+          "title": "7. На VPS: постоянная служба dashboard",
+          "text": "В первом серверном терминале остановите ручной dashboard сочетанием Ctrl+C. Скопируйте скачанный шаблон unit в /tmp/hermes-server.service на VPS любым привычным способом. Проверьте ExecStart по command -v hermes. Выполните exit один раз, чтобы вернуться из hermes к администратору. Не запускайте модель от root. Служба переживёт выход из SSH; сам туннель при этом всё равно нужен для доступа с компьютера.",
+          "code": "exit\n# Теперь снова административный аккаунт VPS:\nsudo install -m 644 /tmp/hermes-server.service /etc/systemd/system/hermes-server.service\nsudo systemctl daemon-reload\nsudo systemctl enable --now hermes-server\nsudo systemctl status hermes-server --no-pager\nsudo journalctl -u hermes-server -n 60 --no-pager",
+          "file": "hermes-server.service"
+        },
+        {
+          "title": "Как передать unit с Mac / Windows",
+          "text": "Скачайте файл по кнопке шага 7. Выполните scp в НОВОМ ЛОКАЛЬНОМ окне, не внутри SSH. Примеры для стандартного каталога Downloads; если браузер сохранил иначе — исправьте путь. При ключевом входе добавьте -i. Затем выполните серверные команды шага 7.",
+          "code": "# Mac Terminal:\nscp ~/Downloads/hermes-server.service adminuser@vps.example:/tmp/hermes-server.service\n\n# Windows PowerShell:\nscp \"$env:USERPROFILE\\Downloads\\hermes-server.service\" adminuser@vps.example:/tmp/hermes-server.service",
+          "file": null
+        },
+        {
+          "title": "8. Если нужен доступ с телефона по HTTPS",
+          "text": "SSH-туннель выше — законченный приватный вариант для компьютера. Для постоянного браузерного адреса нужен отдельный домен с DNS на VPS, TLS-прокси и авторизация. По официальной инструкции настройте OAuth: hermes dashboard register под пользователем hermes. Укажите dashboard.public_url в его config.yaml и направьте существующий Nginx/Caddy на 127.0.0.1:9119 с поддержкой WebSocket, сохранением Host и X-Forwarded-Proto. Не публикуйте loopback без авторизации. Password-провайдер официально рекомендуется для доверенной сети/VPN; публичный вариант ниже предполагает OAuth. Ссылка на полную актуальную настройку — в источниках.",
+          "code": "# Под hermes, после настройки входа Nous по официальной инструкции:\nhermes dashboard register\n\n# Добавить в ~/.hermes/config.yaml, не затирая другие настройки:\ndashboard:\n  public_url: \"https://hermes.example.com\"\n\n# После настройки отдельного virtual host в существующем Nginx\n# из административного аккаунта:\nsudo nginx -t\n# Только если проверка успешна:\nsudo systemctl reload nginx\nsudo systemctl restart hermes-server",
+          "file": null
+        },
+        {
+          "title": "9. Контроль результата",
+          "text": "Закройте установочную SSH-сессию и заново откройте туннель: интерфейс должен оставаться доступным. Проверьте реальный ответ модели, создание/чтение тестового файла и работу после рестарта службы. Для HTTPS отдельно проверьте сертификат, вход и WebSocket-чата с другого устройства; /api/status сам по себе не доказывает работоспособность чата. Порт backend должен слушать только 127.0.0.1. Сравните существующие сайты и сервисы до/после установки.",
+          "code": "sudo systemctl restart hermes-server\nsudo systemctl is-active hermes-server\nsudo ss -ltnp\nsudo journalctl -u hermes-server -n 60 --no-pager",
+          "file": null
+        },
+        {
+          "title": "10. Где теперь данные и как обслуживать",
+          "text": "Профиль, история, настройки и секреты принадлежат серверному пользователю hermes: /home/hermes/.hermes. Резервную копию храните приватно вместе с unit и конфигурацией прокси. Для смены модели снова переключайтесь в hermes; после изменений перезапускайте только службу агента. Desktop можно подключить через Settings → Gateways → Remote gateway; браузерному пользователю Desktop не нужен.",
+          "code": "sudo -iu hermes\nexport PATH=\"$HOME/.local/bin:$PATH\"\nhermes model\nhermes doctor\nexit\nsudo systemctl restart hermes-server",
+          "file": null
+        }
+      ]
     }
   },
   "sources": {
@@ -700,6 +811,18 @@
     "video": [
       "Дополнительное видео",
       "https://www.youtube.com/watch?v=XNcKUSL1CTE"
+    ],
+    "dashboard": [
+      "Браузерный Hermes и удалённый доступ",
+      "https://hermes-agent.nousresearch.com/docs/user-guide/features/web-dashboard"
+    ],
+    "hostinger": [
+      "Hostinger · управление VPS и SSH",
+      "https://www.hostinger.com/support/5726606-how-to-use-the-vps-dashboard-in-hostinger/"
+    ],
+    "hostingerplans": [
+      "Hostinger · KVM VPS и условия",
+      "https://www.hostinger.com/vps-hosting"
     ]
   }
 }
