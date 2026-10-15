@@ -127,6 +127,18 @@
       "cls": ""
     },
     {
+      "kicker": "VPS · ГОТОВЫЙ ПРОМПТ",
+      "title": "Поручите установку Codex / Claude",
+      "body": "<div class=\"cards cols3\"><article class=\"card\"><span class=\"mono tag\">01 · ВХОДНЫЕ ДАННЫЕ</span><h3>SSH и своё имя</h3><p>Укажите существующий SSH-доступ, префикс nip.io и модель — либо подключите её позже.</p></article><article class=\"card\"><span class=\"mono tag\">02 · ВЫПОЛНЕНИЕ</span><h3>Отдельный Hermes</h3><p>Аудит → пользователь → dashboard → systemd → имя → HTTPS и авторизация.</p></article><article class=\"card\"><span class=\"mono tag\">03 · ПРИЁМКА</span><h3>Проверки и откат</h3><p>Чат, WebSocket, перезапуск службы и сравнение существующих сервисов до/после.</p></article></div><div class=\"note\">Секреты — только приватно. При конфликте портов или риске для других сервисов агент должен остановиться. OAuth может потребовать вашего входа.</div><div class=\"actions\"><button class=\"button primary\" data-code=\"install-hermes-vps-prompt.txt\">Открыть и скопировать весь промпт ↗</button><a class=\"button\" href=\"code.html?file=install-hermes-vps-prompt.txt\" target=\"_blank\">В отдельном окне ↗</a></div>",
+      "sub": "",
+      "sources": [
+        "dashboard",
+        "install",
+        "nip"
+      ],
+      "cls": ""
+    },
+    {
       "kicker": "10 · ТРИ РЕЖИМА",
       "title": "Браузер, Desktop и мессенджеры",
       "body": "<div class=\"cards cols3\"><article class=\"card\"><span class=\"mono tag\">БРАУЗЕР + REMOTE</span><h3>hermes dashboard</h3><p>Браузерный интерфейс и backend. На VPS — постоянная служба; доступ через SSH/VPN или HTTPS с авторизацией.</p></article><article class=\"card\"><span class=\"mono tag\">API / BACKEND</span><h3>hermes serve</h3><p>Серверный API без браузерного SPA. Для удалённого Desktop ориентируйтесь на dashboard из текущей документации.</p></article><article class=\"card\"><span class=\"mono tag\">БОТЫ И КАНАЛЫ</span><h3>hermes gateway</h3><p>Отдельный процесс Telegram и других каналов. Dashboard не запускает бота автоматически.</p></article></div><pre><code>hermes dashboard --no-open --host 127.0.0.1 --port 9119</code></pre><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=existing-vps\" target=\"_blank\">Начать: Terminal на Mac / PowerShell на Windows <span>↗</span></a></div>",
@@ -649,6 +661,12 @@
           "text": "hPanel объединяет сведения о ресурсах, SSH-команду, firewall и резервные копии; root-доступ позволяет установить отдельного пользователя, systemd и свой backend. Для новичка это сокращает число отдельных инструментов при запуске и обслуживании. Круглосуточная работа без включённого Mac — преимущество VPS в целом, не только Hostinger. Перед покупкой сравните цену продления, срок предоплаты, регион, лимиты и доступные способы оплаты. Обычный CPU VPS здесь обслуживает агента с внешним API: он не заменяет GPU-сервер для большой LLM. На уже работающем VPS используйте ручную установку ниже; переустановка ОС или применение шаблона может затронуть существующие данные. Материал видео доступен по ссылке в источниках; точные высказывания автора в этом дополнении не цитируются.",
           "code": null,
           "file": null
+        },
+        {
+          "title": "Готовый промпт для Codex / Claude Code",
+          "text": "Откройте промпт целиком, скопируйте и замените поля в угловых скобках. Запускайте в агенте с разрешённым SSH-доступом к вашему серверу. Он должен проверить конфликты, сохранить изменяемые конфигурации и проверить существующие сервисы до/после. Интерактивный OAuth или недостающие права могут потребовать вашего участия. Сам промпт не является гарантией безопасной установки; результат подтверждают проверки.",
+          "code": null,
+          "file": "install-hermes-vps-prompt.txt"
         },
         {
           "title": "1A. Mac: откройте Terminal",
