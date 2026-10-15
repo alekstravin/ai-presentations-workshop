@@ -262,6 +262,18 @@
       "cls": ""
     },
     {
+      "kicker": "UNSLOTH · ГОТОВЫЙ ПРОМПТ",
+      "title": "Подключить модель и проверить RAG",
+      "body": "<div class=\"cards cols3\"><article class=\"card\"><span class=\"mono tag\">01 · МОДЕЛЬ</span><h3>Реальная генерация</h3><p>Точный ID, посильные настройки, tools и реальное окно контекста.</p></article><article class=\"card\"><span class=\"mono tag\">02 · ПОИСК</span><h3>Unsloth → MCP</h3><p>Существующая база, поиск известного факта, текст и метаданные фрагментов.</p></article><article class=\"card\"><span class=\"mono tag\">03 · ОТВЕТ</span><h3>Сверка с документом</h3><p>Число, год, единицы, PDF и страница. Проверка вопроса без ответа.</p></article></div><div class=\"note\">Hermes на VPS и Unsloth дома — разные машины. Промпт проверяет приватную связь, учитывает сон компьютера и сохраняет существующие документы и сервисы.</div><div class=\"actions\"><button class=\"button primary\" data-code=\"connect-unsloth-rag-prompt.txt\">Промпт для Codex / Claude ↗</button><a class=\"button\" href=\"code.html?file=connect-unsloth-rag-prompt.txt\" target=\"_blank\">Открыть целиком и скопировать ↗</a></div><div class=\"actions\"><a class=\"button \" href=\"guide.html?topic=rag\" target=\"_blank\">Инструкция и шаблоны MCP <span>↗</span></a></div>",
+      "sub": "",
+      "sources": [
+        "unsloth",
+        "mcpconf",
+        "providers"
+      ],
+      "cls": ""
+    },
+    {
       "kicker": "20 · КОМБИНАЦИИ",
       "title": "Локальная база + внешняя модель",
       "body": "<div class=\"hybrid\"><div class=\"zone\"><span class=\"mono\">ВАШ КОМПЬЮТЕР</span><h3>Unsloth RAG</h3><p>PDF, индекс, embedder.<br>Поиск возвращает фрагменты.</p></div><div class=\"transfer\"><span>→</span><p>Найденные<br>фрагменты</p></div><div class=\"zone\"><span class=\"mono\">API-ПРОВАЙДЕР</span><h3>Отвечающая модель</h3><p>GigaChat или другая LLM.<br>Hermes передаёт ей контекст.</p></div></div><div class=\"note\">Такой сценарий не является полностью локальным: содержимое найденных фрагментов отправляется провайдеру модели. Для закрытых документов выбирайте разрешённую архитектуру.</div>",
@@ -586,6 +598,12 @@
         "ragapi"
       ],
       "steps": [
+        {
+          "title": "Готовый промпт: подключить модель и RAG через Codex / Claude",
+          "text": "Укажите расположение Hermes и Unsloth, профиль, базу и контрольный PDF. Промпт отдельно проверяет генерацию, прямой поиск, MCP и ответ со сверкой документа. Для VPS + домашнего компьютера учитывает приватный туннель и сон машины. Ключи вводятся приватно. Не требует пересоздавать существующую базу и не обходит ограничение реального контекста.",
+          "code": null,
+          "file": "connect-unsloth-rag-prompt.txt"
+        },
         {
           "title": "1. Подготовьте Unsloth",
           "text": "Установите Desktop с официального сайта. Загрузите GGUF-модель и запустите её. В настройках загрузки проверьте Context Length: стандартному Hermes нужно окно не меньше 64 000 на активную сессию. Не подменяйте реальное окно значением в YAML.",
