@@ -1,0 +1,21 @@
+# Example: verify account, paths and a free port before installation.
+# Save to /etc/systemd/system/gpt2giga.service as an administrator.
+[Unit]
+Description=Gpt2Giga loopback gateway for Hermes
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hermes
+WorkingDirectory=/home/hermes/gpt2giga
+Environment=HOME=/home/hermes
+Environment=PATH=/home/hermes/gpt2giga/.venv/bin:/usr/local/bin:/usr/bin:/bin
+EnvironmentFile=/home/hermes/gpt2giga/.env
+ExecStart=/home/hermes/gpt2giga/.venv/bin/gpt2giga
+Restart=on-failure
+RestartSec=10
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

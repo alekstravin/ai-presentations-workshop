@@ -196,6 +196,18 @@
       "cls": ""
     },
     {
+      "kicker": "GIGACHAT · VPS · АВТОЗАПУСК",
+      "title": "Подключить API и оставить работать",
+      "body": "<div class=\"flow\"><div class=\"node\"><span class=\"mono\">01</span><h3>На VPS</h3><p>Gpt2Giga → 127.0.0.1:8090</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">02</span><h3>В Hermes</h3><p>Custom URL /v1 + ключ прокси</p></div><b class=\"arrow\">→</b><div class=\"node\"><span class=\"mono\">03</span><h3>В systemd</h3><p>Автозапуск и восстановление</p></div></div><div class=\"note\">Authorization key Сбера хранится в приватном .env прокси. В Hermes вводим отдельный ключ Gpt2Giga. Проверяем реальный tool call и ответ после рестарта службы.</div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=gigachat\" target=\"_blank\">Инструкция: SSH → API → автозапуск <span>↗</span></a><button class=\"button primary\" data-code=\"connect-gigachat-vps-prompt.txt\">Промпт для Codex / Claude ↗</button></div><div class=\"actions\"><button class=\"button\" data-code=\"gpt2giga.service\">Шаблон службы systemd</button><a class=\"button\" href=\"code.html?file=connect-gigachat-vps-prompt.txt\" target=\"_blank\">Промпт в отдельном окне ↗</a></div>",
+      "sub": "",
+      "sources": [
+        "gptstart",
+        "providers",
+        "cert"
+      ],
+      "cls": ""
+    },
+    {
       "kicker": "15 · UNSLOTH",
       "title": "Модель подключаем как API",
       "body": "<div class=\"split\"><div><div class=\"endpoint mono\">http://127.0.0.1:8888/v1</div><h3>Что настроить в Hermes</h3><p>Custom endpoint → API-ключ Studio → точный ID модели → реальный контекст сервера.</p><p class=\"fine\">Адрес и авторизация зависят от сборки. В нашем примере Studio слушает порт 8888.</p></div><div class=\"card\"><h3>Что проверить в Studio</h3><ul><li>Модель загружена, а не просто скачана.</li><li>Поддерживает tools и выбранное окно.</li><li>Хватает памяти с учётом KV-кэша.</li><li>Обычный запрос действительно генерирует ответ.</li></ul></div></div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=rag\" target=\"_blank\">Настроить модель + RAG <span>↗</span></a><a class=\"button\" href=\"https://unsloth.ai/download\" target=\"_blank\">Скачать Unsloth ↗</a></div>",
@@ -512,6 +524,54 @@
           "text": "Проверьте поддержку tools выбранной моделью, реальный размер окна, rate limits и достаточность квоты. Стандартный Hermes требует минимум 64 000 токенов. Не увеличивайте context_length в YAML сверх возможностей модели. После этого тестируйте файлы, RAG и несколько последовательных задач.",
           "code": null,
           "file": null
+        },
+        {
+          "title": "VPS · 1. Где выполнять команды",
+          "text": "На Mac откройте Terminal, на Windows — PowerShell. Выполните ssh adminuser@vps.example, заменив адрес и пользователя. Все следующие Linux-команды выполняются уже на VPS. Прокси должен работать рядом с серверным Hermes: localhost домашнего компьютера ему недоступен. Проверьте, что порт 8090 свободен; при конфликте замените его и в .env, и в настройках Hermes.",
+          "code": "ssh adminuser@vps.example",
+          "file": null
+        },
+        {
+          "title": "VPS · 2. Установка под пользователем Hermes",
+          "text": "Из SSH-сеанса администратора переключитесь на пользователя действующего Hermes. В примере это hermes; если служба использует другое имя — исправьте все пути. Проверьте поддерживаемую Python-версию. Это отдельное окружение, не изменение Python самого Hermes.",
+          "code": "sudo -iu hermes\nmkdir -p ~/gpt2giga\ncd ~/gpt2giga\npython3 -m venv .venv\n.venv/bin/python -m pip install gpt2giga\n.venv/bin/gpt2giga --help",
+          "file": null
+        },
+        {
+          "title": "VPS · 3. Приватные ключи и запуск",
+          "text": "Скачанный шаблон сохраните в ~/gpt2giga/.env, заполните через nano на сервере. GIGACHAT_CREDENTIALS — Authorization key из кабинета; GPT2GIGA_API_KEY — другой случайный секрет для доступа Hermes к прокси. Scope берите из своего проекта. Не вставляйте ключи в историю команд. TLS-проверка включена. Пакет читает настройки из окружения/.env; проверьте параметры своей версии.",
+          "code": "cd ~/gpt2giga\numask 077\nnano .env\n# nano: Ctrl+O, Enter, Ctrl+X\nchmod 600 .env\n.venv/bin/gpt2giga",
+          "file": "gpt2giga.env.example"
+        },
+        {
+          "title": "VPS · 4. Подключите нужный профиль Hermes",
+          "text": "Во втором SSH-сеансе запустите hermes model от того же пользователя. Для именованного профиля добавьте -p ИМЯ. Выберите Custom/OpenAI-compatible: URL http://127.0.0.1:8090/v1; ключ — GPT2GIGA_API_KEY; модель — точный ID из каталога вашего прокси. GigaChat-2-Max — пример, не гарантия доступа. После настройки начните новый чат.",
+          "code": "sudo -iu hermes\nexport PATH=\"$HOME/.local/bin:$PATH\"\nhermes model\nhermes tools\nhermes chat",
+          "file": null
+        },
+        {
+          "title": "VPS · 5. Автозапуск Gpt2Giga",
+          "text": "Остановите собственный ручной прокси Ctrl+C. Скачайте шаблон unit, исправьте пользователя, HOME, пути и ExecStart. Передайте на VPS в /tmp/gpt2giga.service. Администратор устанавливает unit; агенту sudo не нужен. EnvironmentFile должен указывать на существующий приватный .env. Служба запускает прокси из его venv и сохраняется после выхода из SSH.",
+          "code": "# На VPS из аккаунта администратора:\nsudo install -m 644 /tmp/gpt2giga.service /etc/systemd/system/gpt2giga.service\nsudo systemd-analyze verify /etc/systemd/system/gpt2giga.service\nsudo systemctl daemon-reload\nsudo systemctl enable --now gpt2giga\nsudo systemctl status gpt2giga --no-pager",
+          "file": "gpt2giga.service"
+        },
+        {
+          "title": "Как перенести шаблон службы",
+          "text": "Выполните только подходящую команду в НОВОМ ЛОКАЛЬНОМ окне Terminal / PowerShell. Укажите свой SSH-адрес и путь скачанного файла. Это передача шаблона, не секретного .env.",
+          "code": "# Mac Terminal:\nscp ~/Downloads/gpt2giga.service adminuser@vps.example:/tmp/gpt2giga.service\n\n# Windows PowerShell:\nscp \"$env:USERPROFILE\\Downloads\\gpt2giga.service\" adminuser@vps.example:/tmp/gpt2giga.service",
+          "file": null
+        },
+        {
+          "title": "VPS · 6. Перезапуск Hermes и приёмка",
+          "text": "Замените hermes-server фактическим именем своей службы. Проверьте обычный ответ и реальное создание/чтение файла в отдельной тестовой папке. Выполните provider_check.py из инструкции выше: полный tool-call цикл важнее каталога моделей. После рестарта прокси повторите вопрос в Hermes. Проверьте HTTPS, вход и работу остальных сервисов; сервер целиком перезагружать не нужно.",
+          "code": "sudo systemctl restart hermes-server\nsudo systemctl restart gpt2giga\nsudo systemctl is-active gpt2giga hermes-server\nsudo ss -ltnp\nsudo journalctl -u gpt2giga -n 50 --no-pager\n# Не публикуйте журнал без проверки на секреты.",
+          "file": null
+        },
+        {
+          "title": "Сделать всё через Codex / Claude Code",
+          "text": "Готовый промпт устанавливает отдельный прокси, подключает нужный профиль, настраивает автозапуск, проверяет инструменты и предусматривает откат. Заполните SSH-доступ, модель и scope. Ключи передавайте скрытым вводом или приватным файлом. Реальное подключение потребует действующего API и квоты; эти материалы не означают, что ваш аккаунт уже проверен.",
+          "code": null,
+          "file": "connect-gigachat-vps-prompt.txt"
         }
       ]
     },
