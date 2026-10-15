@@ -116,6 +116,17 @@
       "cls": ""
     },
     {
+      "kicker": "VPS · СВОЁ ИМЯ",
+      "title": "Назовите своего Hermes",
+      "body": "<div class=\"split\"><div><span class=\"mono tag\">ПРИМЕР · НЕ РЕАЛЬНЫЙ СЕРВЕР</span><pre><code>203.0.113.10\n      ↓ IPv4 → hex\ncb00710a\n      ↓ свой префикс\nsever-cb00710a.nip.io</code></pre></div><div><h3>Без покупки домена</h3><p>nip.io распознаёт IP внутри имени. Префикс можно выбрать самому; DNS-регистрация не нужна.</p><h3>Имя помощника — отдельно</h3><p>«Тебя зовут Север» задаётся в SOUL.md. Домен не меняет личность агента.</p></div></div><div class=\"note\">Hex не скрывает IP. HTTPS, вход и public_url настраиваются отдельно. Для короткого адреса без IP используйте собственный домен.</div><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=existing-vps\" target=\"_blank\">Как вычислить имя и применить его на сервере <span>↗</span></a></div>",
+      "sub": "",
+      "sources": [
+        "nip",
+        "dashboard"
+      ],
+      "cls": ""
+    },
+    {
       "kicker": "10 · ТРИ РЕЖИМА",
       "title": "Браузер, Desktop и мессенджеры",
       "body": "<div class=\"cards cols3\"><article class=\"card\"><span class=\"mono tag\">БРАУЗЕР + REMOTE</span><h3>hermes dashboard</h3><p>Браузерный интерфейс и backend. На VPS — постоянная служба; доступ через SSH/VPN или HTTPS с авторизацией.</p></article><article class=\"card\"><span class=\"mono tag\">API / BACKEND</span><h3>hermes serve</h3><p>Серверный API без браузерного SPA. Для удалённого Desktop ориентируйтесь на dashboard из текущей документации.</p></article><article class=\"card\"><span class=\"mono tag\">БОТЫ И КАНАЛЫ</span><h3>hermes gateway</h3><p>Отдельный процесс Telegram и других каналов. Dashboard не запускает бота автоматически.</p></article></div><pre><code>hermes dashboard --no-open --host 127.0.0.1 --port 9119</code></pre><div class=\"actions\"><a class=\"button primary\" href=\"guide.html?topic=existing-vps\" target=\"_blank\">Начать: Terminal на Mac / PowerShell на Windows <span>↗</span></a></div>",
@@ -629,7 +640,8 @@
         "security",
         "hostinger",
         "hostingerplans",
-        "video"
+        "video",
+        "nip"
       ],
       "steps": [
         {
@@ -714,6 +726,36 @@
           "title": "10. Где теперь данные и как обслуживать",
           "text": "Профиль, история, настройки и секреты принадлежат серверному пользователю hermes: /home/hermes/.hermes. Резервную копию храните приватно вместе с unit и конфигурацией прокси. Для смены модели снова переключайтесь в hermes; после изменений перезапускайте только службу агента. Desktop можно подключить через Settings → Gateways → Remote gateway; браузерному пользователю Desktop не нужен.",
           "code": "sudo -iu hermes\nexport PATH=\"$HOME/.local/bin:$PATH\"\nhermes model\nhermes doctor\nexit\nsudo systemctl restart hermes-server",
+          "file": null
+        },
+        {
+          "title": "Своё имя: что именно можно назвать",
+          "text": "Имя помощника и адрес сайта — разные настройки. Поведение и обращение задайте в SOUL.md выбранного профиля, например «Тебя зовут Север, ты помощник по СПГ», затем начните новый сеанс. Это не меняет DNS, имя пользователя Linux или адрес браузера. В адресе можно отдельно выбрать префикс sever или hermes.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Бесплатный адрес без регистрации: nip.io",
+          "text": "nip.io автоматически возвращает IP, встроенный в имя. Его можно записать четырьмя числами либо восемью шестнадцатеричными символами. Условный пример: 203.0.113.10 → cb00710a → sever-cb00710a.nip.io. Это специальный адрес для документации, не работающий сервер. Произвольное sever.nip.io без IP так получить нельзя. Домен покупать и создавать DNS-запись не нужно, но сервер, HTTPS и вход всё равно нужно настраивать.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Как получить hex для своего IP",
+          "text": "Ниже только вычисление имени, оно не изменяет сервер. Команда Python одинакова по содержимому: на Mac используйте python3, на Windows при установленном Python — py. Замените учебный адрес своим публичным IPv4. Результат для примера — cb00710a. Строка имеет ровно 8 символов: по два на каждый байт, включая начальные нули.",
+          "code": "# Mac Terminal:\npython3 -c \"import ipaddress; print(ipaddress.IPv4Address('203.0.113.10').packed.hex())\"\n\n# Windows PowerShell:\npy -c \"import ipaddress; print(ipaddress.IPv4Address('203.0.113.10').packed.hex())\"",
+          "file": null
+        },
+        {
+          "title": "Применить новое имя — не просто заменить ссылку",
+          "text": "Для реального адреса обновите server_name отдельного virtual host Nginx, выпустите сертификат именно на новое имя и измените dashboard.public_url. При OAuth обновите зарегистрированный callback на https://НОВОЕ-ИМЯ/auth/callback. Проверьте nginx -t, перезагрузите конфигурацию прокси и перезапустите службу Hermes. Старое HTTPS-имя требует своего действующего сертификата даже для редиректа; после проверки можно включить перенаправление. Логин и пароль могут оставаться прежними, но браузер может потребовать войти заново на новом origin. Переименование не подключает модель.",
+          "code": null,
+          "file": null
+        },
+        {
+          "title": "Hex не скрывает сервер; красивый адрес — свой домен",
+          "text": "cb00710a легко декодировать в 203.0.113.10; DNS также возвращает исходный IP. Это кодирование, а не шифрование или защита доступа. Для короткого имени hermes.example.com купите/используйте свой домен и создайте A-запись на VPS. Обычная A-запись тоже показывает IP. Защиту обеспечивают HTTPS, авторизация и ограничения доступа, а не необычный вид адреса. При смене IP имя nip.io с закодированным IP меняется; собственный домен можно сохранить, обновив DNS.",
+          "code": null,
           "file": null
         }
       ]
@@ -823,6 +865,10 @@
     "hostingerplans": [
       "Hostinger · KVM VPS и условия",
       "https://www.hostinger.com/vps-hosting"
+    ],
+    "nip": [
+      "nip.io / sslip.io · имена, hex и HTTPS",
+      "https://nip.io/"
     ]
   }
 }
